@@ -38,6 +38,8 @@ Route::prefix("/teacher")->middleware(['auth', 'verified'])->group(function(){
     Route::get("/",[TeacherController::class,"index"])->name("teacher.index");
     Route::get("/{student}/show",[TeacherController::class,"show"])->name("teacher.student.reports");
     Route::get("{report}/report/show",[TeacherController::class,"showReport"])->name("teacher.student.report.show");
+    Route::get("/{student}/company",[TeacherController::class,"studentCompany"])->name("teacher.student.company");
+
 });
 
 

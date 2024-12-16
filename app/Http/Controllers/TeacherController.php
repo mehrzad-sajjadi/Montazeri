@@ -44,7 +44,7 @@ class TeacherController extends Controller
             return $array;
         });
         $header = ["تاریخ گزارش", "عملیات"];
-        return Inertia::render("Teacher/StudentReport",compact("reports","header","student"));
+        return Inertia::render("Teacher/StudentReportList",compact("reports","header","student"));
     }
 
 
@@ -59,5 +59,12 @@ class TeacherController extends Controller
         }
 
     }
+
+    public function studentCompany(Student $student){
+        $start_date = DateConvertor::miladi2shamsi($student->start_date);
+        $start_date = Jalalian::fromFormat("Y-m-d H:i:s", $start_date)->format("Y/m/d") ;
+        return Inertia::render("Teacher/StudentCompany",compact("student","start_date"));
+    }
+
 
 }

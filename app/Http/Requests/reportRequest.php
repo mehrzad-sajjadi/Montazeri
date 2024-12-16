@@ -25,6 +25,8 @@ class reportRequest extends FormRequest
         return [
             "text"=>["required","string"],
             "date"=>["required"],
+            "start_time"=>["required"],
+            "end_time"=>["required"],
             "student_id"=>["required","integer"],
         ];
     }

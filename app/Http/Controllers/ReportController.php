@@ -18,6 +18,9 @@ use Morilog\Jalali\Jalalian;
 class ReportController extends Controller
 {
     public function index(){
+        if(Auth::user()->level!=0){
+            return redirect()->back();
+        }
         $reports = Report::where("student_id",Auth::user()->student_id)->latest()->get()->map(function($record){
             $array=[];
             $array["date"]      = ["key"=>"date","data"=>Jalalian::fromFormat('Y-m-d H:i:s', DateConvertor::miladi2shamsi($record->date))->format("Y/m/d"),"type"=>"text", ] ;
@@ -43,13 +46,16 @@ class ReportController extends Controller
     public function store(reportRequest $reportRequest){
         $date = DateConvertor::shamsi2miladi( $reportRequest->date);
         $check = Report::where("date",$date )->where("student_id",$reportRequest->student_id)->first();
-        // dd($check );
+
         if($check){
             return redirect()->route("report.create")->withErrors("شما قبلا در این تاریخ گزارش خود را ثبت کرده اید");
         }
         $report = new Report();
         $report->text = $reportRequest->text;
         $report->date = $date;
+        $report->start_time = $reportRequest->start_time;
+        $report->end_time = $reportRequest->end_time;
+
         $report->student_id = $reportRequest->student_id;
 
         if($reportRequest->hasFile('image')){
@@ -65,7 +71,6 @@ class ReportController extends Controller
     }
 
     public function show(Report $report){
-        // dd($report->toArray());
         $date = Jalalian::fromFormat('Y-m-d H:i:s', DateConvertor::miladi2shamsi( $report->date))->format("Y/m/d");
         if($report->image){
             $image_url = Storage::url("pics/".$report->image);

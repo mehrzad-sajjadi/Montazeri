@@ -91,4 +91,6 @@ const props = defineProps({
     image_name: String,
     date: String,
 });
+
+import { BuildingStorefrontIcon } from "@heroicons/vue/24/solid";
 </script>
