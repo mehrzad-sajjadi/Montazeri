@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
+use App\Http\Middleware\IsFaculty;
 use App\Http\Middleware\Register;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -43,7 +45,14 @@ Route::prefix("/teacher")->middleware(['auth', 'verified'])->group(function(){
 });
 
 
-Route::prefix("/faculty")->middleware(['auth', 'verified'])->group(function(){
+Route::prefix("/faculty")->middleware(['auth', 'verified',IsFaculty::class])->group(function(){
+    Route::get("/",[FacultyController::class,"index"])->name("faculty.index");
+    Route::get("/create",[FacultyController::class,"create"])->name("faculty.teacher.create");
+    Route::post("/",[FacultyController::class,"store"])->name("faculty.teacher.store");
+
+    
+
+
 });
 
 

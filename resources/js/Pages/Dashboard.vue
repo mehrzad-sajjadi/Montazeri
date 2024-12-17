@@ -16,7 +16,7 @@
                 <div>
                     <div class="mb-5 py-2 px-2 w-full">
                         <div
-                            class="grid grid-cols-3 md:grid-cols-3 gap-x-6 gap-y-4"
+                            class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-4 sm:gap-x-2"
                         >
                             <div>
                                 <label
@@ -74,41 +74,53 @@
                         <p class="text-red-600">
                             {{ $page.props.errors.address }}
                         </p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-4">
+                            <!-- بخش انتخاب استاد -->
+                            <div class="flex flex-col space-y-2">
+                                <label
+                                    class="text-lg font-medium text-gray-700 dark:text-gray-300"
+                                >
+                                    استاد
+                                </label>
+                                <select
+                                    v-model="form.teacher_id"
+                                    class="w-full p-3 text-gray-800 bg-gray-100 dark:bg-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                                >
+                                    <option
+                                        v-for="(teacher, index) in teachers"
+                                        :key="index"
+                                        :value="teacher.id"
+                                    >
+                                        {{ teacher.name }}
+                                    </option>
+                                </select>
+                                <p
+                                    v-if="$page.props.errors.teacher_id"
+                                    class="text-red-500 text-sm"
+                                >
+                                    {{ $page.props.errors.teacher_id }}
+                                </p>
+                            </div>
 
-                        <label
-                            class="block my-2 text-lg font-medium text-gray-800 dark:text-gray-300"
-                        >
-                            استاد
-                        </label>
-                        <select
-                            v-model="form.teacher_id"
-                            class="block w-3/4 md:w-1/2 p-2 text-gray-800 bg-gray-100 dark:bg-gray-800 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        >
-                            <option
-                                v-for="(teacher, index) in teachers"
-                                :key="index"
-                                :value="teacher.id"
-                                class="rounded-lg"
-                            >
-                                {{ teacher.name }}
-                            </option>
-                        </select>
-                        <p
-                            v-if="$page.props.errors.teacher_id"
-                            class="text-red-500 mt-2"
-                        >
-                            {{ $page.props.errors.teacher_id }}
-                        </p>
-
-                        <label
-                            class="block mb-2 text-lg font-medium text-gray-900 dark:text-white"
-                        >
-                            تاریخ شروع
-                        </label>
-                        <date-picker v-model="form.start_date"></date-picker>
-                        <p class="text-red-600">
-                            {{ $page.props.errors.start_date }}
-                        </p>
+                            <!-- بخش تاریخ شروع -->
+                            <div class="flex flex-col space-y-2">
+                                <label
+                                    class="text-lg font-medium text-gray-700 dark:text-gray-300"
+                                >
+                                    تاریخ شروع
+                                </label>
+                                <date-picker
+                                    v-model="form.start_date"
+                                    class="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                ></date-picker>
+                                <p
+                                    v-if="$page.props.errors.start_date"
+                                    class="text-red-500 text-sm"
+                                >
+                                    {{ $page.props.errors.start_date }}
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="flex flex-row justify-between mb-4">

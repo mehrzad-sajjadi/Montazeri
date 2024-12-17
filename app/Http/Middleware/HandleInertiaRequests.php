@@ -68,6 +68,13 @@ class HandleInertiaRequests extends Middleware
                         'show'   => $isTeacher,
                         'active' => Route::is("teacher.index") || Route::is("teacher.student.reports") || Route::is("teacher.student.report.show")
                     ],
+                    [
+                        'name'   => 'اساتید',
+                        'route'  => 'faculty.index',
+                        'show'   => true,
+                        'active' => Route::is("faculty.index") 
+                    ],
+
                 ];
                
             }
