@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Student;
 use App\Models\User;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
@@ -19,8 +20,12 @@ class FacultyController extends Controller
         $teachers = User::where("level",">",0)->whereNot("id",Auth::id())->get()->map(function($record){
             $array=[];
             $array["date"]      = ["key"=>"date","data"=>$record->name,"type"=>"text" ] ;
+            $array["button"]    = [ "type"=>"button",
+            "items"=>[
+                ["data"=>route('faculty.teacher.show',$record->id)     ,  "method"=>"get"      ,"value"=>"نمایش"           , "type"=>"show"        ],
+            ],
+        ];
             return $array;
-
         });
         $header = ["نام استاد","عملیات"];
         return Inertia::render("Faculty/index",compact("teachers","header"));
@@ -46,6 +51,23 @@ class FacultyController extends Controller
         
         $user->save();
         return Redirect()->route("faculty.index");
+    }
+
+    public function show($teacherId){
+        $teacher = User::find($teacherId)->name;
+        $students = Student::where('teacher_id',$teacherId)->get()->map(function($record){
+            $array=[];
+            $array["name"]      = ["key"=>"date","data"=>$record->user_name,"type"=>"text", ] ;
+            $array["button"]    = [ "type"=>"button",
+                "items"=>[
+                    ["data"=>route("teacher.student.reports",$record->id)     ,  "method"=>"get"      ,"value"=>"نمایش"           , "type"=>"show"        ],
+                ],
+            ];
+            return $array;
+        });
+        // dd($students);
+        $header = ["نام دانشجو", "عملیات"];
+        return Inertia::render("Faculty/TeacherStudents",compact("students","header","teacher"));
     }
 
 }

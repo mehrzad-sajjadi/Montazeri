@@ -18,21 +18,31 @@
             <div class="flex flex-col justify-between">
                 <div>
                     <div class="mb-5 py-2 px-2 w-full">
-                        <!-- عنوان گزارش -->
-                        <label
-                            class="block mb-2 text-lg font-medium text-gray-900 dark:text-white"
-                        >
-                            عنوان گزارش
-                        </label>
+                        <div class="flex flex-row justify-between">
+                            <label
+                                class="block mb-2 text-lg font-medium text-gray-900 dark:text-white"
+                            >
+                                عنوان گزارش
+                            </label>
 
-                        <!-- متن گزارش -->
+                            <div class="grid grid-cols-2 space-x-4">
+                                <div>
+                                    ساعت ورود
+                                    {{ start_time }}
+                                </div>
+                                <div>
+                                    ساعت خروج
+                                    {{ end_time }}
+                                </div>
+                            </div>
+                        </div>
+
                         <p
                             class="bg-white text-md rounded-lg py-5 px-3 shadow-md dark:bg-gray-800 dark:text-gray-300"
                         >
                             {{ report.text }}
                         </p>
 
-                        <!-- تصویر گزارش -->
                         <div
                             v-if="image_url"
                             class="mt-4 flex justify-between items-center"
@@ -85,5 +95,7 @@ const props = defineProps({
     image_url: String,
     image_name: String,
     date: String,
+    start_time: String,
+    end_time: String,
 });
 </script>

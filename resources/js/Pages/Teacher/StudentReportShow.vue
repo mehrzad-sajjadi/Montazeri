@@ -2,7 +2,9 @@
     <Head title="Create new Task" />
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-medium text-xl text-gray-800 leading-tight">
+            <h2
+                class="font-medium text-xl dark:text-white text-gray-800 leading-tight"
+            >
                 جزئیات گزارش تاریخ
                 <span class="underline">
                     {{ date }}
@@ -10,6 +12,10 @@
 
                 {{ report.user_name }}
             </h2>
+            <div>
+                ساعت ورود
+                {{ report.start_time }}
+            </div>
         </template>
 
         <div

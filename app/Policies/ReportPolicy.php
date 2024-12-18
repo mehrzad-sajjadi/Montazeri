@@ -21,9 +21,11 @@ class ReportPolicy
      */
     public function view(User $user, Report $report): bool
     {
-        
-
-        return false;
+        if($user->id == $report->user_id){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     /**

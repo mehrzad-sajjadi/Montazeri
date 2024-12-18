@@ -19,5 +19,6 @@ class Student extends Model
     public function getUserNameAttribute(){
         return $this->user->name;
     }
+    
 
 }

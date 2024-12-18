@@ -48,7 +48,7 @@ class HandleInertiaRequests extends Middleware
                 $user = Auth::user();
                 $isTeacher = $user->isTeacher();
                 $isStudent = $user->isStudent();
-
+                $isFaculty = Auth::user()->level > 1;
                 return [
                     [
                         'name'   => 'ثبت محل کارآموزی',
@@ -71,7 +71,7 @@ class HandleInertiaRequests extends Middleware
                     [
                         'name'   => 'اساتید',
                         'route'  => 'faculty.index',
-                        'show'   => true,
+                        'show'   => $isFaculty ,
                         'active' => Route::is("faculty.index") 
                     ],
 

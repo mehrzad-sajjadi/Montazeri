@@ -46,6 +46,40 @@
                         <p class="text-red-600">
                             {{ $page.props.errors.date }}
                         </p>
+                        <div>
+                            <label
+                                class="mt-8 block mb-2 text-lg font-medium text-gray-900 dark:text-white"
+                            >
+                                ساعت ورود
+                            </label>
+                            <date-picker
+                                type="time"
+                                v-model="form.start_time"
+                            ></date-picker>
+                            <p
+                                v-if="$page.props.errors.start_time"
+                                class="text-red-600"
+                            >
+                                {{ $page.props.errors.start_time }}
+                            </p>
+
+                            <label
+                                class="mt-8 block mb-2 text-lg font-medium text-gray-900 dark:text-white"
+                            >
+                                ساعت خروج
+                            </label>
+                            <date-picker
+                                type="time"
+                                v-model="form.end_time"
+                            ></date-picker>
+                            <p
+                                v-if="$page.props.errors.end_time"
+                                class="text-red-600"
+                            >
+                                {{ $page.props.errors.end_time }}
+                            </p>
+                        </div>
+
                         <label
                             class="mt-8 block mb-2 text-lg font-medium text-gray-900 dark:text-white"
                         >
@@ -136,26 +170,19 @@ const form = useForm({
 //     form.put(route("report.update", props.report.id));
 // }
 
-function sentImage(event) {
-    const file = event.target.files[0];
-    form.image = file;
+// function sentImage(event) {
+//     const file = event.target.files[0];
+//     form.image = file;
 
-    if (file) {
-        previewImageUrl.value = URL.createObjectURL(file);
-    } else {
-        previewImageUrl.value = null;
-    }
-}
+//     if (file) {
+//         previewImageUrl.value = URL.createObjectURL(file);
+//     } else {
+//         previewImageUrl.value = null;
+//     }
+// }
 function update() {
     form.put(route("report.update", props.report.id), {
         forceFormData: true,
-        onSuccess: () => {
-            previewImageUrl.value = null;
-            form.reset();
-        },
-        onError: (errors) => {
-            console.error("Validation Errors:", errors); // برای نمایش خطاها
-        },
     });
 }
 import {

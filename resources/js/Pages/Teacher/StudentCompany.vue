@@ -3,87 +3,85 @@
     <AuthenticatedLayout>
         <template #header>
             <h2
-                class="font-semibold dark:text-white text-xl text-gray-800 leading-tight"
+                class="font-semibold text-xl text-gray-800 dark:text-white leading-tight"
             >
-                اطلاعات محل کارآموزی
-                {{ student.user_name }}
+                اطلاعات محل کارآموزی {{ student.user_name }}
             </h2>
         </template>
 
         <div
-            class="flex flex-col w-5/6 mx-auto my-16 border border-gray-500 rounded-lg"
+            class="flex flex-col w-full lg:w-5/6 mx-auto my-8 p-6 border border-gray-300 dark:border-gray-500 rounded-lg bg-white dark:bg-gray-800 shadow-md"
         >
-            <div class="flex flex-col justify-between">
+            <div
+                class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6"
+            >
                 <div>
-                    <div class="mb-5 py-2 px-2 w-full">
-                        <div
-                            class="grid grid-cols-4 md:grid-cols-4 gap-x-6 gap-y-4"
-                        >
-                            <div>
-                                <label
-                                    class="block mb-2 text-lg font-medium text-gray-900 dark:text-white"
-                                >
-                                    نام شرکت
-                                </label>
-                                <p
-                                    class="block w-[100%] p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    autofocus
-                                >
-                                    {{ student.company }}
-                                </p>
-                            </div>
+                    <label
+                        class="block mb-2 text-lg font-medium text-gray-900 dark:text-white"
+                    >
+                        نام شرکت
+                    </label>
+                    <p
+                        class="w-full p-3 text-gray-900 dark:text-white border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-700"
+                    >
+                        {{ student.company }}
+                    </p>
+                </div>
 
-                            <div>
-                                <label
-                                    class="block mb-2 text-lg font-medium text-gray-900 dark:text-white"
-                                >
-                                    تلفن
-                                </label>
-                                <p
-                                    class="block w-[100%] p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                >
-                                    {{ student.phone }}
-                                </p>
-                            </div>
-                            <div>
-                                <label
-                                    class="block mb-2 text-lg font-medium text-gray-900 dark:text-white"
-                                >
-                                    نام سرپرست
-                                </label>
-                                <p
-                                    class="block w-[100%] p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                >
-                                    {{ student.boss_name }}
-                                </p>
-                            </div>
-                            <div>
-                                <label
-                                    class="block mb-2 text-lg font-medium text-gray-900 dark:text-white"
-                                >
-                                    تاریخ شروع کارآموزی
-                                </label>
-                                <p
-                                    class="block w-[100%] p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                >
-                                    {{ start_date }}
-                                </p>
-                            </div>
-                        </div>
-                        <label
-                            class="block mb-2 text-lg font-medium text-gray-900 dark:text-white"
-                        >
-                            آدرس
-                        </label>
-                        <p
-                            class="block w-[100%] p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        >
-                            {{ student.address }}
-                        </p>
-                    </div>
+                <div>
+                    <label
+                        class="block mb-2 text-lg font-medium text-gray-900 dark:text-white"
+                    >
+                        تلفن
+                    </label>
+                    <p
+                        class="w-full p-3 text-gray-900 dark:text-white border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-700"
+                    >
+                        {{ student.phone }}
+                    </p>
+                </div>
+
+                <div>
+                    <label
+                        class="block mb-2 text-lg font-medium text-gray-900 dark:text-white"
+                    >
+                        نام سرپرست
+                    </label>
+                    <p
+                        class="w-full p-3 text-gray-900 dark:text-white border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-700"
+                    >
+                        {{ student.boss_name }}
+                    </p>
+                </div>
+
+                <div>
+                    <label
+                        class="block mb-2 text-lg font-medium text-gray-900 dark:text-white"
+                    >
+                        تاریخ شروع کارآموزی
+                    </label>
+                    <p
+                        class="w-full p-3 text-gray-900 dark:text-white border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-700"
+                    >
+                        {{ start_date }}
+                    </p>
                 </div>
             </div>
-            <div class="flex flex-row justify-between mb-4">
+
+            <div class="mb-6">
+                <label
+                    class="block mb-2 text-lg font-medium text-gray-900 dark:text-white"
+                >
+                    آدرس
+                </label>
+                <p
+                    class="w-full p-3 text-gray-900 dark:text-white border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-700"
+                >
+                    {{ student.address }}
+                </p>
+            </div>
+
+            <div class="flex flex-row justify-between">
                 <Link
                     :href="route('teacher.student.reports', student.id)"
                     type="button"

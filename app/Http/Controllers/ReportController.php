@@ -18,6 +18,7 @@ use Morilog\Jalali\Jalalian;
 class ReportController extends Controller
 {
     public function index(){
+
         if(Auth::user()->level!=0){
             return redirect()->back();
         }
@@ -28,7 +29,6 @@ class ReportController extends Controller
                 "items"=>[
                     ["data"=>route("report.show",$record->id)     ,  "method"=>"get"      ,"value"=>"نمایش"           , "type"=>"show"        ],
                     ["data"=>route("report.edit",$record->id)     ,  "method"=>"get"      ,"value"=>"ویرایش"           , "type"=>"edit"        ],
-
                     ["data"=>route("report.delete",$record->id)     ,  "method"=>"delete"      ,"value"=>"حذف"           , "type"=>"delete"        ],
                 ],
             ];
@@ -38,6 +38,7 @@ class ReportController extends Controller
         return Inertia::render("Report/index",compact("reports","header"));
     }
     public function create(){
+
         $now = Jalalian::now()->format("Y/m/d");
         $studentId = Auth::user()->student_id;
         return Inertia::render("Report/create",compact("now","studentId"));
@@ -71,19 +72,24 @@ class ReportController extends Controller
     }
 
     public function show(Report $report){
+        Gate::authorize("view",$report);
+
         $date = Jalalian::fromFormat('Y-m-d H:i:s', DateConvertor::miladi2shamsi( $report->date))->format("Y/m/d");
+        $start_time = Jalalian::forge($report->start_time)->format("H:i");
+        $end_time = Jalalian::forge($report->end_time)->format("H:i");
         if($report->image){
             $image_url = Storage::url("pics/".$report->image);
             $image_name = $report->image;
-            return Inertia::render("Report/show",compact("report","image_url","image_name","date"));
+            return Inertia::render("Report/show",compact("report","image_url","image_name","date","start_time","end_time"));
         }else{
-            return Inertia::render("Report/show",compact("report","date"));
+            return Inertia::render("Report/show",compact("report","date","start_time","end_time"));
         }
     }     
 
     public function edit(Report $report){
-        $date = Jalalian::fromFormat('Y-m-d H:i:s', DateConvertor::miladi2shamsi( $report->date))->format("Y/m/d");
+        Gate::authorize("view",$report);
 
+        $date = Jalalian::fromFormat('Y-m-d H:i:s', DateConvertor::miladi2shamsi( $report->date))->format("Y/m/d");
         $now = Jalalian::now()->format("Y/m/d");
         $studentId = Auth::user()->student_id;
         if($report->image){
