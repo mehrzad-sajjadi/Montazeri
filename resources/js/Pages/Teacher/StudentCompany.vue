@@ -68,17 +68,33 @@
                 </div>
             </div>
 
-            <div class="mb-6">
-                <label
-                    class="block mb-2 text-lg font-medium text-gray-900 dark:text-white"
-                >
-                    آدرس
-                </label>
-                <p
-                    class="w-full p-3 text-gray-900 dark:text-white border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-700"
-                >
-                    {{ student.address }}
-                </p>
+            <div
+                class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mb-6"
+            >
+                <div>
+                    <label
+                        class="block mb-2 text-lg font-medium text-gray-900 dark:text-white"
+                    >
+                        سمت
+                    </label>
+                    <p
+                        class="w-full p-3 text-gray-900 dark:text-white border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-700"
+                    >
+                        {{ student.position }}
+                    </p>
+                </div>
+                <div>
+                    <label
+                        class="block mb-2 text-lg font-medium text-gray-900 dark:text-white"
+                    >
+                        آدرس
+                    </label>
+                    <p
+                        class="w-full p-3 text-gray-900 dark:text-white border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-700"
+                    >
+                        {{ student.address }}
+                    </p>
+                </div>
             </div>
 
             <div class="flex flex-row justify-between">

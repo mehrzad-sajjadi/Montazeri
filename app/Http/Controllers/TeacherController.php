@@ -13,8 +13,18 @@ use Illuminate\Support\Facades\Storage;
 
 class TeacherController extends Controller
 {
-    public function index(){
-        $students = Student::where('teacher_id',Auth::user()->id)->with('user')->get()->map(function($record){
+
+
+    public function index(Request $request){
+        $search = $request->input('search');
+        
+        
+        $students = Student::where('teacher_id', Auth::user()->id)
+        ->when($search, function ($query, $search) {
+            $query->whereHas('user', function ($q) use ($search) {
+                $q->where('name', 'like', '%' . $search . '%');
+            });
+        })->with("user")->get()->map(function($record){
             $array=[];
             $array["name"]      = ["key"=>"date","data"=>$record->user_name,"type"=>"text", ] ;
             $array["button"]    = [ "type"=>"button",
@@ -24,6 +34,8 @@ class TeacherController extends Controller
             ];
             return $array;
         });
+        
+        
         $header = ["نام دانشجو", "عملیات"];
         return Inertia::render("Teacher/StudentsList",compact("students","header"));
     }
@@ -60,6 +72,7 @@ class TeacherController extends Controller
 
     }
 
+    //دیدن شرکت دانشجو
     public function studentCompany(Student $student){
         $start_date = DateConvertor::miladi2shamsi($student->start_date);
         $start_date = Jalalian::fromFormat("Y-m-d H:i:s", $start_date)->format("Y/m/d") ;

@@ -4,12 +4,9 @@
         <template #header>
             <div class="flex w-[100%] flex-row justify-between items-center">
                 <h2
-                    class="font-medium text-xl text-gray-800 leading-tight dark:text-white"
+                    class="font-semibold text-xl text-gray-800 leading-tight dark:text-white"
                 >
-                    ویرایش گزارش تاریخ
-                    <span class="underline">
-                        {{ props.date }}
-                    </span>
+                    افزودن گزارش
                 </h2>
             </div>
         </template>
@@ -34,50 +31,62 @@
                         <p v-if="$page.props.errors.text" class="text-red-600">
                             {{ $page.props.errors.text }}
                         </p>
-                        <label
-                            class="block mb-2 text-lg font-medium text-gray-900 dark:text-white"
-                        >
-                            تاریخ گزارش
-                        </label>
-                        <date-picker
-                            v-model="form.date"
-                            :max="$page.props.now"
-                        ></date-picker>
-                        <p class="text-red-600">
-                            {{ $page.props.errors.date }}
-                        </p>
-                        <div>
-                            <label
-                                class="mt-8 block mb-2 text-lg font-medium text-gray-900 dark:text-white"
-                            >
-                                ساعت ورود
-                            </label>
-                            <date-picker
-                                type="time"
-                                v-model="form.start_time"
-                            ></date-picker>
-                            <p
-                                v-if="$page.props.errors.start_time"
-                                class="text-red-600"
-                            >
-                                {{ $page.props.errors.start_time }}
-                            </p>
 
-                            <label
-                                class="mt-8 block mb-2 text-lg font-medium text-gray-900 dark:text-white"
-                            >
-                                ساعت خروج
-                            </label>
-                            <date-picker
-                                type="time"
-                                v-model="form.end_time"
-                            ></date-picker>
-                            <p
-                                v-if="$page.props.errors.end_time"
-                                class="text-red-600"
-                            >
-                                {{ $page.props.errors.end_time }}
-                            </p>
+                        <div class="flex flex-wrap gap-4">
+                            <div class="flex-1">
+                                <label
+                                    class="block mb-2 text-lg font-medium text-gray-900 dark:text-white"
+                                >
+                                    تاریخ گزارش
+                                </label>
+                                <date-picker
+                                    v-model="form.date"
+                                    :max="$page.props.now"
+                                    class="w-full"
+                                ></date-picker>
+                                <p
+                                    v-if="$page.props.errors.date"
+                                    class="text-red-600"
+                                >
+                                    {{ $page.props.errors.date }}
+                                </p>
+                            </div>
+                            <div class="flex-1">
+                                <label
+                                    class="block mb-2 text-lg font-medium text-gray-900 dark:text-white"
+                                >
+                                    ساعت ورود
+                                </label>
+                                <date-picker
+                                    type="time"
+                                    v-model="form.start_time"
+                                    class="w-full"
+                                ></date-picker>
+                                <p
+                                    v-if="$page.props.errors.start_time"
+                                    class="text-red-600"
+                                >
+                                    {{ $page.props.errors.start_time }}
+                                </p>
+                            </div>
+                            <div class="flex-1">
+                                <label
+                                    class="block mb-2 text-lg font-medium text-gray-900 dark:text-white"
+                                >
+                                    ساعت خروج
+                                </label>
+                                <date-picker
+                                    type="time"
+                                    v-model="form.end_time"
+                                    class="w-full"
+                                ></date-picker>
+                                <p
+                                    v-if="$page.props.errors.end_time"
+                                    class="text-red-600"
+                                >
+                                    {{ $page.props.errors.end_time }}
+                                </p>
+                            </div>
                         </div>
 
                         <label
@@ -92,7 +101,6 @@
                             name="image"
                             @change="sentImage"
                         />
-                        <!-- پیش نمایش تصویر جدید -->
                         <div v-if="previewImageUrl" class="mt-4">
                             <img
                                 :src="previewImageUrl"
@@ -100,24 +108,12 @@
                                 class="max-w-xs rounded-md shadow-sm border border-gray-300 dark:border-gray-600"
                             />
                         </div>
-                        <div
-                            v-if="image_url && !previewImageUrl"
-                            class="mt-4 flex justify-between items-center"
-                        >
-                            <img
-                                :src="image_url"
-                                alt="گزارش تصویری"
-                                class="max-w-xs rounded-lg shadow-md border border-gray-300 dark:border-gray-700"
-                            />
-                        </div>
                     </div>
                     <p
-                        class="flex flex-row justify-center text-xl text-center pt-5 text-red-600"
-                        v-if="$page.props.errors"
+                        class="flex mb-15 flex-row justify-center text-red-500 text-xl text-center"
+                        v-if="$page.props.crud.errors"
                     >
-                        <span v-for="(error, index) in errors" :key="index">{{
-                            error
-                        }}</span>
+                        {{ $page.props.crud.errors }}
                     </p>
                 </div>
 
@@ -126,7 +122,7 @@
                         class="h-9 px-4 m-2 text-lg duration-150 rounded focus:shadow-outline bg-white text-blue-600 border border-blue-600 hover:bg-blue-600 hover:text-white hover:border-transparent dark:bg-gray-800 dark:text-blue-400 dark:border-blue-400 dark:hover:bg-blue-500 dark:hover:text-white dark:hover:border-transparent"
                         @click="update"
                     >
-                        ویرایش گزارش
+                        ثبت گزارش
                     </button>
                     <Link
                         :href="route('report.index')"
@@ -163,6 +159,8 @@ const previewImageUrl = ref(null);
 const form = useForm({
     text: props.report.text,
     date: props.date,
+    start_time: props.report.start_time,
+    end_time: props.report.end_time,
     student_id: props.studentId,
     image: null,
 });
@@ -182,7 +180,7 @@ const form = useForm({
 // }
 function update() {
     form.put(route("report.update", props.report.id), {
-        forceFormData: true,
+        // forceFormData: true,
     });
 }
 import {

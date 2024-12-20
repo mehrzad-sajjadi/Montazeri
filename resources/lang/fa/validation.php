@@ -176,11 +176,13 @@ return [
     |
     */
     'attributes' => [
+        "position"=>"سمت",
+        "end_time"=>"ساعت خروج",
         "name" => "نام",
         "company" =>"نام شرکت",
         "teacher_id"=>"استاد",
         "start_date"=>"تاریخ شروع",
-        "start_time"=>"تاریخ شروع",
+        "start_time"=>"ساعت ورود",
         "boss_name"=>"نام سرپرست",
         "username" => "نام کاربری",
         "email" => "پست الکترونیکی",

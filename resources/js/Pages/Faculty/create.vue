@@ -9,9 +9,9 @@ import { Head, Link, useForm } from "@inertiajs/vue3";
 const form = useForm({
     name: "",
     email: "",
-    level: 1,
     password: "",
     password_confirmation: "",
+    isFaculty: false,
 });
 
 const submit = () => {
@@ -97,6 +97,19 @@ const props = defineProps({
                     class="mt-2"
                     :message="form.errors.password_confirmation"
                 />
+
+                <div class="mt-4 block">
+                    <label class="flex items-center">
+                        <input
+                            type="checkbox"
+                            v-model="form.isFaculty"
+                            class="w-5 h-5 rounded-md border-gray-400 text-blue-600 focus:ring-blue-500"
+                        />
+                        <span class="ms-2 text-sm text-gray-600">
+                            عضو هیات علمی
+                        </span>
+                    </label>
+                </div>
             </div>
 
             <div class="mt-4 flex items-center justify-between">
@@ -106,7 +119,6 @@ const props = defineProps({
                 >
                     تا کنون ثبت نام کرده اید ؟
                 </Link> -->
-
                 <PrimaryButton
                     class="ms-4"
                     :class="{ 'opacity-25': form.processing }"
@@ -114,6 +126,14 @@ const props = defineProps({
                 >
                     ثبت نام
                 </PrimaryButton>
+                <Link
+                    :href="route('faculty.index')"
+                    type="button"
+                    as="button"
+                    class="h-8 px-4 m-2 text-sm duration-150 rounded focus:shadow-outline bg-[#ffc107] hover:bg-[#ffe607] text-black border border-[#ffc107] hover:border-transparent"
+                >
+                    بازگشت
+                </Link>
             </div>
         </form>
     </GuestLayout>

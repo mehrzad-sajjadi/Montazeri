@@ -2,9 +2,7 @@
     <Head title="Create new Task" />
     <AuthenticatedLayout>
         <template #header>
-            <h2
-                class="font-medium text-xl dark:text-white text-gray-800 leading-tight"
-            >
+            <h2 class="font-medium text-xl text-gray-800 leading-tight">
                 جزئیات گزارش تاریخ
                 <span class="underline">
                     {{ date }}
@@ -12,10 +10,6 @@
 
                 {{ report.user_name }}
             </h2>
-            <div>
-                ساعت ورود
-                {{ report.start_time }}
-            </div>
         </template>
 
         <div
@@ -24,21 +18,33 @@
             <div class="flex flex-col justify-between">
                 <div>
                     <div class="mb-5 py-2 px-2 w-full">
-                        <!-- عنوان گزارش -->
-                        <label
-                            class="block mb-2 text-lg font-medium text-gray-900 dark:text-white"
-                        >
-                            عنوان گزارش
-                        </label>
+                        <div class="flex flex-row justify-between">
+                            <label
+                                class="block mb-2 text-lg font-medium text-gray-900 dark:text-white"
+                            >
+                                عنوان گزارش
+                            </label>
 
-                        <!-- متن گزارش -->
+                            <div
+                                class="grid grid-cols-2 space-x-4 dark:text-white"
+                            >
+                                <div>
+                                    ساعت ورود
+                                    {{ start_time }}
+                                </div>
+                                <div>
+                                    ساعت خروج
+                                    {{ end_time }}
+                                </div>
+                            </div>
+                        </div>
+
                         <p
                             class="bg-white text-md rounded-lg py-5 px-3 shadow-md dark:bg-gray-800 dark:text-gray-300"
                         >
                             {{ report.text }}
                         </p>
 
-                        <!-- تصویر گزارش -->
                         <div
                             v-if="image_url"
                             class="mt-4 flex justify-between items-center"
@@ -66,12 +72,7 @@
                     </a>
 
                     <Link
-                        :href="
-                            route(
-                                'teacher.student.reports',
-                                props.report.student_id
-                            )
-                        "
+                        :href="route('report.index')"
                         type="button"
                         as="button"
                         class="h-8 px-4 m-2 text-sm duration-150 rounded focus:shadow-outline bg-[#ffc107] hover:bg-[#ffe607] text-black border border-[#ffc107] hover:border-transparent"
@@ -83,6 +84,7 @@
         </div>
     </AuthenticatedLayout>
 </template>
+
 <script setup>
 import { Head, useForm, Link, usePage } from "@inertiajs/vue3";
 import Dashboard from "@/Pages/Dashboard.vue";

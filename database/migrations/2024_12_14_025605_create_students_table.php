@@ -19,6 +19,8 @@ return new class extends Migration
             $table->foreign("teacher_id")->references("id")->on("users")->onDelete("cascade");
 
             $table->string("company");
+            $table->string("position");
+            
             $table->timestamp("start_date");
             $table->string("address");
             $table->string("boss_name");

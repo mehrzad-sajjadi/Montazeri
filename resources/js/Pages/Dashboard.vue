@@ -51,7 +51,7 @@
                                 <label
                                     class="block mb-2 text-lg font-medium text-gray-900 dark:text-white"
                                 >
-                                    نام سرپرست
+                                    نام سرپرست شرکت
                                 </label>
                                 <input
                                     class="block w-[100%] p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -74,8 +74,27 @@
                         <p class="text-red-600">
                             {{ $page.props.errors.address }}
                         </p>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-4">
-                            <!-- بخش انتخاب استاد -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 p-4">
+                            <div class="flex flex-col space-y-2">
+                                <label
+                                    class="text-lg font-medium text-gray-700 dark:text-gray-300"
+                                >
+                                    سمت
+                                </label>
+                                <input
+                                    placeholder="مثلاً فرانت اند دولوپر"
+                                    class="block w-[100%] p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    v-model="form.position"
+                                />
+
+                                <p
+                                    v-if="$page.props.errors.position"
+                                    class="text-red-500 text-sm"
+                                >
+                                    {{ $page.props.errors.position }}
+                                </p>
+                            </div>
+
                             <div class="flex flex-col space-y-2">
                                 <label
                                     class="text-lg font-medium text-gray-700 dark:text-gray-300"
@@ -102,7 +121,6 @@
                                 </p>
                             </div>
 
-                            <!-- بخش تاریخ شروع -->
                             <div class="flex flex-col space-y-2">
                                 <label
                                     class="text-lg font-medium text-gray-700 dark:text-gray-300"
@@ -154,6 +172,7 @@ const form = useForm({
     company: "",
     start_date: "",
     address: "",
+    position: "",
     boss_name: "",
     phone: "",
     teacher_id: "",

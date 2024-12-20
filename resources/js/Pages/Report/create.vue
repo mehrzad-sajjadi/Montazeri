@@ -31,50 +31,62 @@
                         <p v-if="$page.props.errors.text" class="text-red-600">
                             {{ $page.props.errors.text }}
                         </p>
-                        <label
-                            class="block mb-2 text-lg font-medium text-gray-900 dark:text-white"
-                        >
-                            تاریخ گزارش
-                        </label>
-                        <date-picker
-                            v-model="form.date"
-                            :max="$page.props.now"
-                        ></date-picker>
-                        <p class="text-red-600">
-                            {{ $page.props.errors.date }}
-                        </p>
-                        <div>
-                            <label
-                                class="mt-8 block mb-2 text-lg font-medium text-gray-900 dark:text-white"
-                            >
-                                ساعت ورود
-                            </label>
-                            <date-picker
-                                type="time"
-                                v-model="form.start_time"
-                            ></date-picker>
-                            <p
-                                v-if="$page.props.errors.start_time"
-                                class="text-red-600"
-                            >
-                                {{ $page.props.errors.start_time }}
-                            </p>
 
-                            <label
-                                class="mt-8 block mb-2 text-lg font-medium text-gray-900 dark:text-white"
-                            >
-                                ساعت خروج
-                            </label>
-                            <date-picker
-                                type="time"
-                                v-model="form.end_time"
-                            ></date-picker>
-                            <p
-                                v-if="$page.props.errors.end_time"
-                                class="text-red-600"
-                            >
-                                {{ $page.props.errors.end_time }}
-                            </p>
+                        <div class="flex flex-wrap gap-4">
+                            <div class="flex-1">
+                                <label
+                                    class="block mb-2 text-lg font-medium text-gray-900 dark:text-white"
+                                >
+                                    تاریخ گزارش
+                                </label>
+                                <date-picker
+                                    v-model="form.date"
+                                    :max="$page.props.now"
+                                    class="w-full"
+                                ></date-picker>
+                                <p
+                                    v-if="$page.props.errors.date"
+                                    class="text-red-600"
+                                >
+                                    {{ $page.props.errors.date }}
+                                </p>
+                            </div>
+                            <div class="flex-1">
+                                <label
+                                    class="block mb-2 text-lg font-medium text-gray-900 dark:text-white"
+                                >
+                                    ساعت ورود
+                                </label>
+                                <date-picker
+                                    type="time"
+                                    v-model="form.start_time"
+                                    class="w-full"
+                                ></date-picker>
+                                <p
+                                    v-if="$page.props.errors.start_time"
+                                    class="text-red-600"
+                                >
+                                    {{ $page.props.errors.start_time }}
+                                </p>
+                            </div>
+                            <div class="flex-1">
+                                <label
+                                    class="block mb-2 text-lg font-medium text-gray-900 dark:text-white"
+                                >
+                                    ساعت خروج
+                                </label>
+                                <date-picker
+                                    type="time"
+                                    v-model="form.end_time"
+                                    class="w-full"
+                                ></date-picker>
+                                <p
+                                    v-if="$page.props.errors.end_time"
+                                    class="text-red-600"
+                                >
+                                    {{ $page.props.errors.end_time }}
+                                </p>
+                            </div>
                         </div>
 
                         <label
@@ -98,12 +110,10 @@
                         </div>
                     </div>
                     <p
-                        class="flex flex-row justify-center text-xl text-center pt-5 text-red-600"
-                        v-if="$page.props.errors"
+                        class="flex mb-15 flex-row justify-center text-red-500 text-xl text-center"
+                        v-if="$page.props.crud.errors"
                     >
-                        <span v-for="(error, index) in errors" :key="index">{{
-                            error
-                        }}</span>
+                        {{ $page.props.crud.errors }}
                     </p>
                 </div>
 
@@ -167,7 +177,6 @@ function submit() {
         forceFormData: true,
         onSuccess: () => {
             previewImageUrl.value = null;
-            form.reset();
         },
     });
 }

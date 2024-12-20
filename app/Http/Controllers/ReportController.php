@@ -27,9 +27,9 @@ class ReportController extends Controller
             $array["date"]      = ["key"=>"date","data"=>Jalalian::fromFormat('Y-m-d H:i:s', DateConvertor::miladi2shamsi($record->date))->format("Y/m/d"),"type"=>"text", ] ;
             $array["button"]    = [ "type"=>"button",
                 "items"=>[
-                    ["data"=>route("report.show",$record->id)     ,  "method"=>"get"      ,"value"=>"نمایش"           , "type"=>"show"        ],
-                    ["data"=>route("report.edit",$record->id)     ,  "method"=>"get"      ,"value"=>"ویرایش"           , "type"=>"edit"        ],
-                    ["data"=>route("report.delete",$record->id)     ,  "method"=>"delete"      ,"value"=>"حذف"           , "type"=>"delete"        ],
+                    ["data"=>route("report.show",$record->id)     ,  "method"=>"get"            ,"value"=>"نمایش"           , "type"=>"show"        ],
+                    ["data"=>route("report.edit",$record->id)     ,  "method"=>"get"            ,"value"=>"ویرایش"          , "type"=>"edit"        ],
+                    ["data"=>route("report.delete",$record->id)   ,  "method"=>"delete"         ,"value"=>"حذف"             , "type"=>"delete"        ],
                 ],
             ];
             return $array;
@@ -49,7 +49,7 @@ class ReportController extends Controller
         $check = Report::where("date",$date )->where("student_id",$reportRequest->student_id)->first();
 
         if($check){
-            return redirect()->route("report.create")->withErrors("شما قبلا در این تاریخ گزارش خود را ثبت کرده اید");
+            return redirect()->route("report.create")->with("error","شما قبلا در این تاریخ گزارش خود را ثبت کرده اید");
         }
         $report = new Report();
         $report->text = $reportRequest->text;

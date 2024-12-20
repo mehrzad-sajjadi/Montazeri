@@ -8,18 +8,18 @@
                 >
                     لیست دانشجویان شما
                 </h2>
-                <!-- <Link
-                    :href="route('report.create')"
-                    as="button"
-                    type="button"
-                    class="h-8 px-4 flex items-center m-2 text-sm transition-colors duration-150 bg-[#6c757d] hover:bg-[#757b80] rounded-lg text-white border border-[#6c757d] hover:border-transparent"
-                >
-                    افزودن گزارش
-                    <NewspaperIcon class="size-5"></NewspaperIcon>
-                </Link> -->
             </div>
         </template>
-
+        <!-- Searchbar -->
+        <div class="flex justify-center py-4">
+            <input
+                type="text"
+                placeholder="نام دانشجو را وارد کنید"
+                v-model="search"
+                @input="submitSearch"
+                class="w-[300px] px-4 py-2 border rounded-lg text-gray-700 focus:outline-none focus:ring dark:bg-gray-800 dark:text-white dark:placeholder-gray-400 dark:border-gray-700 focus:ring-gray-300 dark:focus:ring-gray-600"
+            />
+        </div>
         <div class="flex justify-center py-4">
             <Table :headers="props.header" :arrays="students"></Table>
         </div>
@@ -40,7 +40,18 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 const props = defineProps({
     students: Object,
     header: Object,
+    search: String,
 });
+const search = ref(props.search || "");
+
+// ارسال درخواست جستجو به بک‌اند
+const submitSearch = () => {
+    router.get(
+        route("teacher.index"),
+        { search: search.value },
+        { preserveState: true } // جلوگیری از رفرش مجدد صفحه
+    );
+};
 import {
     TrashIcon,
     EyeIcon,

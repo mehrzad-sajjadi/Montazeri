@@ -35,6 +35,8 @@ class FacultyController extends Controller
         return Inertia::render("Faculty/create");
     }
 
+
+
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
@@ -46,15 +48,21 @@ class FacultyController extends Controller
 
         $user->name = $request->name ;
         $user->email = $request->email ;
-        $user->level = 1 ;
+        if($request->isFaculty){
+            $user->level = 2;
+        }else{
+            $user->level = 1;
+        }
+
         $user->password = Hash::make($request->password);
         
         $user->save();
         return Redirect()->route("faculty.index");
     }
 
+    //لیست دانشجویان یک استاد
     public function show($teacherId){
-        $teacher = User::find($teacherId)->name;
+        $teacher = User::find($teacherId);
         $students = Student::where('teacher_id',$teacherId)->get()->map(function($record){
             $array=[];
             $array["name"]      = ["key"=>"date","data"=>$record->user_name,"type"=>"text", ] ;
@@ -68,6 +76,14 @@ class FacultyController extends Controller
         // dd($students);
         $header = ["نام دانشجو", "عملیات"];
         return Inertia::render("Faculty/TeacherStudents",compact("students","header","teacher"));
+    }
+
+
+
+    public function delete($teacherId){
+        $teacher = User::find($teacherId);
+        $teacher->delete();
+        return redirect()->route("faculty.index")->with("message","استاد مورد نظر حذف شد");
     }
 
 }

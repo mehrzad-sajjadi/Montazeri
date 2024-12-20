@@ -25,6 +25,7 @@ class studentRequest extends FormRequest
             "user_id"=>["required","integer"],
             "teacher_id"=>["required","integer"],
             "company"=>["required","string"],
+            "position"=>["required","string"],
             "start_date"=>["required"],
             "address"=>["required","string"],
             "boss_name"=>["required","string"],

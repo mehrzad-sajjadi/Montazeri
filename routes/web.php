@@ -39,7 +39,6 @@ Route::prefix("/teacher")->middleware(['auth', 'verified'])->group(function(){
     Route::get("/{student}/show",[TeacherController::class,"show"])->name("teacher.student.reports");
     Route::get("{report}/report/show",[TeacherController::class,"showReport"])->name("teacher.student.report.show");
     Route::get("/{student}/company",[TeacherController::class,"studentCompany"])->name("teacher.student.company");
-
 });
 
 
@@ -48,6 +47,8 @@ Route::prefix("/faculty")->middleware(['auth', 'verified',IsFaculty::class])->gr
     Route::get("/create",[FacultyController::class,"create"])->name("faculty.teacher.create");
     Route::post("/",[FacultyController::class,"store"])->name("faculty.teacher.store");
     Route::get("/{teacher}/show",[FacultyController::class,"show"])->name("faculty.teacher.show");
+    Route::delete("/{teacher}/delete",[FacultyController::class,"delete"])->name("faculty.teacher.delete");
+
 
 });
 

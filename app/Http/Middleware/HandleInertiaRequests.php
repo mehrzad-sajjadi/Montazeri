@@ -39,7 +39,8 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),    
             ],            
             "crud"=>[
-                "success"=>session("message")
+                "success"=>session("message"),
+                "errors"=>session("error"),
             ],
             "menu"=> function () use($request) { 
                 if(!$request->user()){
@@ -72,7 +73,7 @@ class HandleInertiaRequests extends Middleware
                         'name'   => 'اساتید',
                         'route'  => 'faculty.index',
                         'show'   => $isFaculty ,
-                        'active' => Route::is("faculty.index") 
+                        'active' => Route::is("faculty.index") ||  Route::is("faculty.teacher.show") || Route::is("faculty.teacher.create") 
                     ],
 
                 ];

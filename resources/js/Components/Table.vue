@@ -46,6 +46,7 @@
                                     v-if="btn.type == 'delete'"
                                     class="h-8 px-4 m-2 flex items-center text-sm text-white duration-150 rounded-lg bg-red-600 dark:bg-red-700 border-red-600 dark:border-red-700 border hover:border-black dark:hover:border-white"
                                     :href="btn.data"
+                                    :method="btn.method"
                                     as="button"
                                 >
                                     {{ btn.value }}

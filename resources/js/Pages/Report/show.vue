@@ -25,7 +25,9 @@
                                 عنوان گزارش
                             </label>
 
-                            <div class="grid grid-cols-2 space-x-4">
+                            <div
+                                class="grid grid-cols-2 space-x-4 dark:text-white"
+                            >
                                 <div>
                                     ساعت ورود
                                     {{ start_time }}
@@ -82,6 +84,7 @@
         </div>
     </AuthenticatedLayout>
 </template>
+
 <script setup>
 import { Head, useForm, Link, usePage } from "@inertiajs/vue3";
 import Dashboard from "@/Pages/Dashboard.vue";
