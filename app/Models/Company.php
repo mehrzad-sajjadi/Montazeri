@@ -6,5 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Company extends Model
 {
-    //
+    public $appends=[];
+
+    public function user(){
+        return $this->belongsTo(User::class,"user_id");
+    }
+
+    public function getCompanyIdAttribute(){
+        return $this->user->id;
+    }
+
+    
 }

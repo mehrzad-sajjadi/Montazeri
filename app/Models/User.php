@@ -15,7 +15,21 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
 
-    public $appends=["student_id"];
+    public $appends=["student_id","company_id"];
+    public function company()
+    {
+        return $this->hasOne(Company::class,'user_id');
+    }
+
+    public function getCompanyIdAttribute()
+    {
+        if ($this->is_company == 1 && $this->company) {
+            return $this->company->id;
+        }
+        return null;
+    }
+
+
 
 
     public function student(){

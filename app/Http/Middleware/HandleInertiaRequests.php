@@ -82,6 +82,13 @@ class HandleInertiaRequests extends Middleware
                         'show'   => $is_company ,
                         'active' => Route::is("company.index") || Route::is("company.create") 
                     ],
+                    [
+                        'name'   => 'آگهی کارآموزی',
+                        'route'  => 'intern.index',
+                        'show'   => !$is_company ,
+                        'active' => Route::is("intern.index")
+                    ],
+
                 ];
                
             }

@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\AdsController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\FacultyController;
+use App\Http\Controllers\InternController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\StudentController;
@@ -53,17 +55,27 @@ Route::prefix("/faculty")->middleware(['auth', 'verified',IsFaculty::class])->gr
 
 
 Route::prefix("/company")->middleware(['auth', 'verified'])->group(function(){
+    Route::get("/",[CompanyController::class,"index"])->name("company.index");
     Route::get("/create",[CompanyController::class,"create"])->name("company.create");
     Route::post("/",[CompanyController::class,"store"])->name("company.store");
-    Route::get("/",[CompanyController::class,"index"])->name("company.index");
+    Route::get("{company}/show",[CompanyController::class,"show"])->name("company.show");
 });
+
 Route::prefix("/intern")->middleware(['auth', 'verified'])->group(function(){
-    Route::get("/create",[CompanyController::class,"create"])->name("intern.create");
+    Route::get("/create",[InternController::class,"create"])->name("intern.create");
+    Route::get("{intern}/show",[InternController::class,"show"])->name("intern.show");
+    Route::post("/",[InternController::class,"store"])->name("intern.store");
+    Route::get("{intern}/edit",[InternController::class,"edit"])->name("intern.edit");
+    Route::put("{intern}/update",[InternController::class,"update"])->name("intern.update");
+    Route::delete("{intern}/delete",[InternController::class,"delete"])->name("intern.delete");
+
+    Route::get("/",[InternController::class,"index"])->name("intern.index");
 });
 
 
-
-
+Route::prefix("/ads")->middleware(['auth', 'verified'])->group(function(){
+    Route::get("/{intern}/details",[AdsController::class,"show"])->name("ads.show");
+});
 
 
 
