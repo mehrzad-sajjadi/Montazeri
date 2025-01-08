@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Helpers\DateConvertor;
 use App\Http\Requests\reportRequest;
@@ -22,20 +23,40 @@ class ReportController extends Controller
         if(Auth::user()->level!=0){
             return redirect()->back();
         }
+        
+        
+        $reports = Report::where("student_id", Auth::user()->student_id)->latest()->get();
+
+
+
+        $totalMinutes = 0;
+        foreach ($reports as $record) {
+            $start = Carbon::parse($record->start_time);
+            $end = Carbon::parse($record->end_time);
+
+            $totalMinutes = $totalMinutes + $start->diffInMinutes($end);
+        }
+        
+
+        $totalHours = floor($totalMinutes / 60);
+        $totalMinutes = $totalMinutes % 60;   
+        
+        $totalTime = "{$totalHours}:{$totalMinutes}";
+                
+
         $reports = Report::where("student_id",Auth::user()->student_id)->latest()->get()->map(function($record){
             $array=[];
             $array["date"]      = ["key"=>"date","data"=>Jalalian::fromFormat('Y-m-d H:i:s', DateConvertor::miladi2shamsi($record->date))->format("Y/m/d"),"type"=>"text", ] ;
             $array["button"]    = [ "type"=>"button",
                 "items"=>[
                     ["data"=>route("report.show",$record->id)     ,  "method"=>"get"            ,"value"=>"نمایش"           , "type"=>"show"        ],
-                    ["data"=>route("report.edit",$record->id)     ,  "method"=>"get"            ,"value"=>"ویرایش"          , "type"=>"edit"        ],
                     ["data"=>route("report.delete",$record->id)   ,  "method"=>"delete"         ,"value"=>"حذف"             , "type"=>"delete"        ],
                 ],
             ];
             return $array;
         });
         $header = ["تاریخ گزارش", "عملیات"];
-        return Inertia::render("Report/index",compact("reports","header"));
+        return Inertia::render("Report/index",compact("reports","header","totalTime"));
     }
     public function create(){
 
@@ -143,3 +164,9 @@ class ReportController extends Controller
 
  
 }
+
+
+
+
+
+                    // ["data"=>route("report.edit",$record->id)     ,  "method"=>"get"            ,"value"=>"ویرایش"          , "type"=>"edit"        ],

@@ -3,11 +3,18 @@
     <AuthenticatedLayout>
         <template #header>
             <div class="flex w-[100%] flex-row justify-between items-center">
-                <h2
-                    class="font-semibold text-xl text-gray-800 leading-tight dark:text-white"
-                >
-                    لیست گزارشات شما
-                </h2>
+                <div class="flex flex-col">
+                    <h2
+                        class="font-semibold text-xl text-gray-800 leading-tight dark:text-white"
+                    >
+                        لیست گزارشات شما
+                    </h2>
+
+                    <p>
+                        مجموع ساعت های گزرانده شما از کارآموزی :
+                        {{ totalTime }}
+                    </p>
+                </div>
                 <Link
                     :href="route('report.create')"
                     as="button"
@@ -39,6 +46,7 @@ import Table from "@/Components/Table.vue";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 
 const props = defineProps({
+    totalTime: String,
     reports: Object,
     header: Object,
 });

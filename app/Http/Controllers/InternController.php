@@ -65,7 +65,7 @@ class InternController extends Controller
             return $array;
         });
         
-        $header = ["نام شرکت","مهارت مورد نیاز","تعداد", "عملیات"];
+        $header = ["نام شرکت","مهارت مورد نیاز","تعداد مورد نیاز", "عملیات"];
 
         return Inertia::render("Intern/index",compact("ads","header"));
 

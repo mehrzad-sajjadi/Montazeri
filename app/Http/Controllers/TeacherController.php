@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Inertia\Inertia;
 use App\Models\Report;
 use App\Models\Student;
@@ -45,6 +46,25 @@ class TeacherController extends Controller
 
     //دیدن گزارشات یک دانشجو
     public function show(Student $student){
+
+        $reports = Report::where("student_id", $student->id)->get();
+
+
+
+        $totalMinutes = 0;
+        foreach ($reports as $record) {
+            $start = Carbon::parse($record->start_time);
+            $end = Carbon::parse($record->end_time);
+
+            $totalMinutes = $totalMinutes + $start->diffInMinutes($end);
+        }
+        
+
+        $totalHours = floor($totalMinutes / 60);
+        $totalMinutes = $totalMinutes % 60;   
+        
+        $totalTime = "{$totalHours}:{$totalMinutes}";
+        // dd($totalTime);
         $reports = Report::where("student_id",$student->id)->latest()->get()->map(function($record){
             $array=[];
             $array["date"]      = ["key"=>"date","data"=>Jalalian::fromFormat('Y-m-d H:i:s', DateConvertor::miladi2shamsi($record->date))->format("Y/m/d"),"type"=>"text", ] ;
@@ -56,7 +76,7 @@ class TeacherController extends Controller
             return $array;
         });
         $header = ["تاریخ گزارش", "عملیات"];
-        return Inertia::render("Teacher/StudentReportList",compact("reports","header","student"));
+        return Inertia::render("Teacher/StudentReportList",compact("reports","header","student","totalTime"));
     }
 
 

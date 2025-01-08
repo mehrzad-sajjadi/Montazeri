@@ -3,12 +3,19 @@
     <AuthenticatedLayout>
         <template #header>
             <div class="flex w-[100%] flex-row justify-between items-center">
-                <h2
-                    class="font-semibold text-xl text-gray-800 leading-tight dark:text-white"
-                >
-                    لیست گزارشات
-                    {{ student.user_name }}
-                </h2>
+                <div class="flex flex-col">
+                    <h2
+                        class="font-semibold text-xl text-gray-800 leading-tight dark:text-white"
+                    >
+                        لیست گزارشات
+                        {{ student.user_name }}
+                    </h2>
+
+                    <p>
+                        مجموع ساعت های گزرانده از کارآموزی :
+                        {{ totalTime }}
+                    </p>
+                </div>
                 <div class="flex flex-row">
                     <Link
                         :href="route('teacher.student.company', student.id)"
@@ -48,6 +55,7 @@ const props = defineProps({
     reports: Object,
     header: Object,
     student: Object,
+    totalTime: String,
 });
 import {
     TrashIcon,
