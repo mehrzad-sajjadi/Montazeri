@@ -50,21 +50,29 @@ class InternController extends Controller
         return redirect()->route("company.index");
     }
 
-    
-    public function index(){
-        $ads = Intern::all()->map(function($record){
-            $array=[];
-            $array["company"]      = ["key"=>"date","data"=>$record->company_name,"type"=>"text", ] ;
-            $array["skill"]      = ["key"=>"date","data"=>$record->skill,"type"=>"text", ] ;
-            $array["number"]      = ["key"=>"date","data"=>$record->number,"type"=>"text", ] ;
-            $array["button"]    = [ "type"=>"button",
-                "items"=>[
-                    ["data"=>route("ads.show",$record->id)     ,  "method"=>"get"      ,"value"=>"نمایش"           , "type"=>"show"        ],
+    public function index(Request $request){
+        $search = $request->input('search');
+        
+        $ads = Intern::when($search, function ($query, $search) {
+            $query->where('skill', 'like', '%' . $search . '%');
+        })->get()->map(function ($record) {
+            $array = [];
+            $array["company"] = ["key" => "date", "data" => $record->company_name, "type" => "text"];
+            $array["skill"] = ["key" => "date", "data" => $record->skill, "type" => "text"];
+            $array["number"] = ["key" => "date", "data" => $record->number, "type" => "text"];
+            $array["button"] = [
+                "type" => "button",
+                "items" => [
+                    [
+                        "data" => route("ads.show", $record->id),
+                        "method" => "get",
+                        "value" => "نمایش",
+                        "type" => "show",
+                    ],
                 ],
             ];
             return $array;
         });
-        
         $header = ["نام شرکت","مهارت مورد نیاز","تعداد مورد نیاز", "عملیات"];
 
         return Inertia::render("Intern/index",compact("ads","header"));

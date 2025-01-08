@@ -30,11 +30,11 @@
                             >
                                 <div>
                                     ساعت ورود
-                                    {{ start_time }}
+                                    {{ props.report.start_time }}
                                 </div>
                                 <div>
                                     ساعت خروج
-                                    {{ end_time }}
+                                    {{ props.report.end_time }}
                                 </div>
                             </div>
                         </div>
@@ -72,7 +72,12 @@
                     </a>
 
                     <Link
-                        :href="route('report.index')"
+                        :href="
+                            route(
+                                'teacher.student.reports',
+                                props.report.student_id
+                            )
+                        "
                         type="button"
                         as="button"
                         class="h-8 px-4 m-2 text-sm duration-150 rounded focus:shadow-outline bg-[#ffc107] hover:bg-[#ffe607] text-black border border-[#ffc107] hover:border-transparent"
@@ -99,6 +104,6 @@ const props = defineProps({
     image_name: String,
     date: String,
 });
-
+console.log(props.report);
 import { BuildingStorefrontIcon } from "@heroicons/vue/24/solid";
 </script>

@@ -105,6 +105,8 @@ class ReportController extends Controller
         }else{
             return Inertia::render("Report/show",compact("report","date","start_time","end_time"));
         }
+
+        
     }     
 
     public function edit(Report $report){
