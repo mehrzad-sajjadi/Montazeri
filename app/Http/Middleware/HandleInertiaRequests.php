@@ -48,13 +48,14 @@ class HandleInertiaRequests extends Middleware
                 }
                 $user = Auth::user();
                 $isTeacher = $user->isTeacher();
-                $isStudent = $user->isStudent();
-                $isFaculty = Auth::user()->level > 1;
+                $isStudent = $user->isStudent()  && $user->is_company==0 ;
+                $isFaculty = Auth::user()->level > 1 && $user->is_company==0;
+                $is_company = $user->is_company==1;
                 return [
                     [
                         'name'   => 'ثبت محل کارآموزی',
                         'route'  => 'student.create',
-                        'show'   => $request->user() ? $user->level == 0 && !$isStudent :false ,
+                        'show'   => $request->user() ? $user->level == 0 && !$isStudent && $user->is_company==0 :false ,
                         'active' => Route::is('student.create'),
                     ],
                     [
@@ -75,7 +76,12 @@ class HandleInertiaRequests extends Middleware
                         'show'   => $isFaculty ,
                         'active' => Route::is("faculty.index") ||  Route::is("faculty.teacher.show") || Route::is("faculty.teacher.create") 
                     ],
-
+                    [
+                        'name'   => 'شرکت',
+                        'route'  => 'company.create',
+                        'show'   => $is_company ,
+                        'active' => Route::is("company.index") || Route::is("company.create") 
+                    ],
                 ];
                
             }

@@ -18,6 +18,10 @@ class StudentController extends Controller
         if(Auth::user()->level>0){
             return redirect()->route("teacher.index");
         }
+        if(Auth::user()->is_company==1){
+            return redirect()->route("company.index");
+        }
+
         $student = Student::where("user_id",Auth::id())->first();
         if($student){
             return redirect()->route("report.index");
@@ -36,6 +40,8 @@ class StudentController extends Controller
         $student->teacher_id =  $studentRequest->teacher_id;
 
         $student->company =  $studentRequest->company;
+        $student->position =  $studentRequest->position;
+
         $student->start_date =   $startDate ;
         $student->address =  $studentRequest->address;
 

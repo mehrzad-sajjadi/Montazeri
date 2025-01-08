@@ -5,12 +5,14 @@ import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 import { Head, Link, useForm } from "@inertiajs/vue3";
+import Checkbox from "@/Components/Checkbox.vue";
 
 const form = useForm({
     name: "",
     email: "",
     password: "",
     password_confirmation: "",
+    is_company: false,
 });
 
 const submit = () => {
@@ -96,6 +98,19 @@ const props = defineProps({
                     class="mt-2"
                     :message="form.errors.password_confirmation"
                 />
+            </div>
+
+            <div class="mt-4 block">
+                <label class="flex items-center">
+                    <input
+                        type="checkbox"
+                        v-model="form.is_company"
+                        class="w-5 h-5 rounded-md border-gray-400 text-blue-600 focus:ring-blue-500"
+                    />
+                    <span class="ms-2 text-sm text-gray-600">
+                        مدیر یک شرکت هستم
+                    </span>
+                </label>
             </div>
 
             <div class="mt-4 flex items-center justify-between">

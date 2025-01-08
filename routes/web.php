@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportController;
@@ -48,10 +49,17 @@ Route::prefix("/faculty")->middleware(['auth', 'verified',IsFaculty::class])->gr
     Route::post("/",[FacultyController::class,"store"])->name("faculty.teacher.store");
     Route::get("/{teacher}/show",[FacultyController::class,"show"])->name("faculty.teacher.show");
     Route::delete("/{teacher}/delete",[FacultyController::class,"delete"])->name("faculty.teacher.delete");
-
-
 });
 
+
+Route::prefix("/company")->middleware(['auth', 'verified'])->group(function(){
+    Route::get("/create",[CompanyController::class,"create"])->name("company.create");
+    Route::post("/",[CompanyController::class,"store"])->name("company.store");
+    Route::get("/",[CompanyController::class,"index"])->name("company.index");
+});
+Route::prefix("/intern")->middleware(['auth', 'verified'])->group(function(){
+    Route::get("/create",[CompanyController::class,"create"])->name("intern.create");
+});
 
 
 
