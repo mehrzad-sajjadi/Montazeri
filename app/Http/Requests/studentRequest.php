@@ -29,8 +29,14 @@ class studentRequest extends FormRequest
             "start_date"=>["required"],
             "address"=>["required","string"],
             "boss_name"=>["required","string"],
-            "phone"=> ["required", 'regex:/^[0-9]{11}$/']
+            "phone"=> ["required", 'regex:/^[0-9]{11}$/'],
             
+            "saturday" => ["nullable", "boolean"],
+            "sunday" => ["nullable", "boolean"],
+            "monday" => ["nullable", "boolean"],
+            "tuesday" => ["nullable", "boolean"],
+            "wednesday" => ["nullable", "boolean"],
+            "thursday" => ["nullable", "boolean"],
         ];
     }
 }

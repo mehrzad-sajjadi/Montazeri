@@ -8,15 +8,19 @@
                         class="font-semibold text-xl text-gray-800 leading-tight dark:text-white"
                     >
                         لیست گزارشات
-                        {{ student.user_name }}
+                        {{ student.user_name }} {{ student.last_name }}
                     </h2>
 
                     <p>
                         مجموع ساعت های گزرانده از کارآموزی :
                         {{ totalTime }}
+                        <br />
+                        میزان ساعت باقی مانده:
+                        {{ reminder }}
                     </p>
                 </div>
                 <div class="flex flex-row">
+                    <!-- route('teacher.student.company', student.id) -->
                     <Link
                         :href="route('teacher.student.company', student.id)"
                         as="button"
@@ -26,15 +30,16 @@
                         اطلاعات شرکت
                         <BuildingOfficeIcon class="size-5"></BuildingOfficeIcon>
                     </Link>
-                    <Link
-                        :href="route('teacher.student.company', student.id)"
+                    <button
+                        @click="remove(student.id)"
+                        :href="route('teacher.student.delete', student.id)"
                         as="button"
                         type="button"
                         class="h-8 px-4 m-2 flex items-center text-sm text-white duration-150 rounded-lg bg-red-600 dark:bg-red-700 border-red-600 dark:border-red-700 border hover:border-black dark:hover:border-white"
                     >
                         حذف دانشجو
                         <UserMinusIcon class="size-5"></UserMinusIcon>
-                    </Link>
+                    </button>
                 </div>
             </div>
         </template>
@@ -56,7 +61,13 @@ const props = defineProps({
     header: Object,
     student: Object,
     totalTime: String,
+    reminder: String,
 });
+function remove(id) {
+    if (confirm("آیا از حذف دانشجو مطمئن هستید ؟ ")) {
+        router.delete(route("teacher.student.delete", id));
+    }
+}
 import {
     TrashIcon,
     EyeIcon,

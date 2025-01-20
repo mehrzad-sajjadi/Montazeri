@@ -26,23 +26,33 @@ class ReportController extends Controller
         
         
         $reports = Report::where("student_id", Auth::user()->student_id)->latest()->get();
-
-
+        $reminderInMinutes = 270 * 60; // 270 ساعت به دقیقه تبدیل می‌شود
 
         $totalMinutes = 0;
+
         foreach ($reports as $record) {
             $start = Carbon::parse($record->start_time);
             $end = Carbon::parse($record->end_time);
 
-            $totalMinutes = $totalMinutes + $start->diffInMinutes($end);
+            $totalMinutes += $start->diffInMinutes($end);
         }
-        
+
 
         $totalHours = floor($totalMinutes / 60);
-        $totalMinutes = $totalMinutes % 60;   
-        
+        $totalMinutes = $totalMinutes % 60;
+
         $totalTime = "{$totalHours}:{$totalMinutes}";
-                
+        
+        //میزان اختلاف
+        $differenceInMinutes = $reminderInMinutes - ($totalHours * 60 + $totalMinutes);
+        $differenceHours = floor($differenceInMinutes / 60);
+        $differenceMinutes = $differenceInMinutes % 60;
+
+        $reminder = "{$differenceHours}:{$differenceMinutes}";
+        
+        if($reminder<="00:00"){
+            $reminder= "00:00";
+        }
 
         $reports = Report::where("student_id",Auth::user()->student_id)->latest()->get()->map(function($record){
             $array=[];
@@ -50,13 +60,12 @@ class ReportController extends Controller
             $array["button"]    = [ "type"=>"button",
                 "items"=>[
                     ["data"=>route("report.show",$record->id)     ,  "method"=>"get"            ,"value"=>"نمایش"           , "type"=>"show"        ],
-                    ["data"=>route("report.delete",$record->id)   ,  "method"=>"delete"         ,"value"=>"حذف"             , "type"=>"delete"        ],
                 ],
             ];
             return $array;
         });
         $header = ["تاریخ گزارش", "عملیات"];
-        return Inertia::render("Report/index",compact("reports","header","totalTime"));
+        return Inertia::render("Report/index",compact("reports","header","totalTime","reminder"));
     }
     public function create(){
 
@@ -65,50 +74,85 @@ class ReportController extends Controller
         return Inertia::render("Report/create",compact("now","studentId"));
     }
 
-    public function store(reportRequest $reportRequest){
-        $date = DateConvertor::shamsi2miladi( $reportRequest->date);
-        $check = Report::where("date",$date )->where("student_id",$reportRequest->student_id)->first();
-
-        if($check){
-            return redirect()->route("report.create")->with("error","شما قبلا در این تاریخ گزارش خود را ثبت کرده اید");
+    public function store(reportRequest $reportRequest)
+    {
+    
+        $date = DateConvertor::shamsi2miladi($reportRequest->date);
+    
+    
+        $check = Report::where("date", $date)->where("student_id", $reportRequest->student_id)->first();
+        if ($check) {
+            return redirect()->route("report.create")->with("error", "شما قبلا در این تاریخ گزارش خود را ثبت کرده اید");
         }
+    
+    
         $report = new Report();
         $report->text = $reportRequest->text;
         $report->date = $date;
         $report->start_time = $reportRequest->start_time;
         $report->end_time = $reportRequest->end_time;
-
         $report->student_id = $reportRequest->student_id;
-
-        if($reportRequest->hasFile('image')){
-            $image = $reportRequest->file("image") ;
+    
+    
+        if ($reportRequest->hasFile('image')) {
+            $image = $reportRequest->file("image");
             $type = $image->getClientOriginalExtension();
             $time = time();
-            $image_name = $time.".".$type;
+            $image_name = $time . "." . $type;
             $image->storeAs('pics', $image_name, 'public');
-            $report->image = $image_name ; 
+            $report->image = $image_name;
         }
+    
+        // ذخیره ویدیو در صورت وجود
+        if ($reportRequest->hasFile('video')) {
+            $video = $reportRequest->file("video");
+            $type = $video->getClientOriginalExtension();
+            $time = time();
+            $video_name = $time . "_video." . $type;
+            $video->storeAs('movie', $video_name, 'public');
+            $report->video = $video_name;
+        }
+    
+    
         $report->save();
-        return redirect()->route('report.index')->with("message","گزارش شما با موفقیت اضافه شد");
+    
+    
+        return redirect()->route('report.index')->with("message", "گزارش شما با موفقیت اضافه شد");
     }
-
-    public function show(Report $report){
-        Gate::authorize("view",$report);
-
-        $date = Jalalian::fromFormat('Y-m-d H:i:s', DateConvertor::miladi2shamsi( $report->date))->format("Y/m/d");
+    
+    
+    public function show(Report $report)
+    {
+    
+        Gate::authorize("view", $report);
+    
+    
+        $date = Jalalian::fromFormat('Y-m-d H:i:s', DateConvertor::miladi2shamsi($report->date))->format("Y/m/d");
         $start_time = Jalalian::forge($report->start_time)->format("H:i");
         $end_time = Jalalian::forge($report->end_time)->format("H:i");
-        if($report->image){
-            $image_url = Storage::url("pics/".$report->image);
+    
+    
+        $image_url = null;
+        $image_name = null;
+        $video_url = null;
+        $video_name = null;
+    
+    
+        if ($report->image) {
+            $image_url = Storage::url("pics/" . $report->image);
             $image_name = $report->image;
-            return Inertia::render("Report/show",compact("report","image_url","image_name","date","start_time","end_time"));
-        }else{
-            return Inertia::render("Report/show",compact("report","date","start_time","end_time"));
         }
-
-        
-    }     
-
+    
+    
+        if ($report->video) {
+            $video_url = Storage::url("movie/" . $report->video);
+            $video_name = $report->video;
+        }
+    
+        // ارسال داده‌ها به نمای Inertia
+        return Inertia::render("Report/show", compact("report", "image_url", "image_name", "video_url", "video_name", "date", "start_time", "end_time"));
+    }
+    
     public function edit(Report $report){
         Gate::authorize("view",$report);
 

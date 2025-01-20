@@ -26,7 +26,14 @@ return new class extends Migration
             $table->string("boss_name");
             $table->string("phone");
             
-            
+            $table->boolean("saturday")->default(0);
+            $table->boolean("sunday")->default(0);
+            $table->boolean("monday")->default(0);
+            $table->boolean("tuesday")->default(0);
+            $table->boolean("wednesday")->default(0);
+            $table->boolean("thursday")->default(0);
+
+
             $table->timestamps();
         });
     }

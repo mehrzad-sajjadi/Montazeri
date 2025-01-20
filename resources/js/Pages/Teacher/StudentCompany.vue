@@ -5,7 +5,9 @@
             <h2
                 class="font-semibold text-xl text-gray-800 dark:text-white leading-tight"
             >
-                اطلاعات محل کارآموزی {{ student.user_name }}
+                اطلاعات محل کارآموزی
+                {{ student.user_name }}
+                {{ student.last_name }}
             </h2>
         </template>
 
@@ -97,15 +99,32 @@
                 </div>
             </div>
 
-            <div class="flex flex-row justify-between">
-                <Link
-                    :href="route('teacher.student.reports', student.id)"
-                    type="button"
-                    as="button"
-                    class="h-8 px-4 m-2 text-sm duration-150 rounded focus:shadow-outline bg-[#ffc107] hover:bg-[#ffe607] text-black border border-[#ffc107] hover:border-transparent"
+            <div class="pb-11">
+                <label
+                    class="block mb-2 text-lg font-medium text-gray-900 dark:text-white"
                 >
-                    بازگشت
-                </Link>
+                    روزهای کارآموزی
+                </label>
+                <ul class="text-gray-900 dark:text-white flex flex-row">
+                    <li v-for="(day, index) in days" :key="index" class="mx-5">
+                        <span>{{ day }}</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div
+                class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6"
+            >
+                <div class="flex flex-row justify-between">
+                    <Link
+                        :href="route('teacher.student.reports', student.id)"
+                        type="button"
+                        as="button"
+                        class="h-8 px-4 m-2 text-sm duration-150 rounded focus:shadow-outline bg-[#ffc107] hover:bg-[#ffe607] text-black border border-[#ffc107] hover:border-transparent"
+                    >
+                        بازگشت
+                    </Link>
+                </div>
             </div>
         </div>
     </AuthenticatedLayout>
@@ -120,5 +139,6 @@ import DatePicker from "vue3-persian-datetime-picker";
 const props = defineProps({
     student: Object,
     start_date: String,
+    days: Object,
 });
 </script>

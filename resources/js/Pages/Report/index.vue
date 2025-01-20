@@ -13,6 +13,9 @@
                     <p>
                         مجموع ساعت های گزرانده شما از کارآموزی :
                         {{ totalTime }}
+                        <br />
+                        میزان ساعت باقی مانده
+                        {{ reminder }}
                     </p>
                 </div>
                 <Link
@@ -49,6 +52,7 @@ const props = defineProps({
     totalTime: String,
     reports: Object,
     header: Object,
+    reminder: String,
 });
 import {
     TrashIcon,

@@ -9,6 +9,8 @@ import Checkbox from "@/Components/Checkbox.vue";
 
 const form = useForm({
     name: "",
+    last_name: "",
+    code_id: "",
     email: "",
     password: "",
     password_confirmation: "",
@@ -26,7 +28,6 @@ const props = defineProps({
 </script>
 
 <template>
-    <p v-for="(error, index) in errors" :key="index">{{ error }}</p>
     <GuestLayout>
         <Head title="Register" />
 
@@ -50,6 +51,31 @@ const props = defineProps({
                 />
 
                 <InputError class="mt-2" :message="form.errors.name" />
+            </div>
+            <div class="mt-4">
+                <InputLabel for="last_name" value="نام خانوادگی" />
+
+                <TextInput
+                    id="last_name"
+                    type="text"
+                    class="mt-1 block w-full"
+                    v-model="form.last_name"
+                />
+
+                <InputError class="mt-2" :message="form.errors.last_name" />
+            </div>
+
+            <div class="mt-4">
+                <InputLabel for="code_id" value="کد ملی" />
+
+                <TextInput
+                    id="last_name"
+                    type="text"
+                    class="mt-1 block w-full"
+                    v-model="form.code_id"
+                />
+
+                <InputError class="mt-2" :message="form.errors.code_id" />
             </div>
 
             <div class="mt-4">

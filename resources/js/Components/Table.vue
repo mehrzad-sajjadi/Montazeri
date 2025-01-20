@@ -48,6 +48,9 @@
                                     :href="btn.data"
                                     :method="btn.method"
                                     as="button"
+                                    @click.prevent="
+                                        confirmDelete(btn.data, btn.method)
+                                    "
                                 >
                                     {{ btn.value }}
                                     <TrashIcon class="size-4"></TrashIcon>
@@ -150,6 +153,27 @@ function hasSlotContent(item) {
     return true;
 }
 
+function confirmDelete(url, method) {
+    const confirmation = confirm(
+        "آیا مطمئن هستید که می‌خواهید این مورد را حذف کنید؟"
+    );
+    if (confirmation) {
+        axios({
+            method: method || "post", // اگر متدی تعریف نشده باشد، به صورت پیش‌فرض POST استفاده می‌شود
+            url: url,
+        })
+            .then((response) => {
+                alert("آیتم با موفقیت حذف شد.");
+                // اینجا می‌توانید جدول را به‌روزرسانی کنید یا هر عملیات دیگری انجام دهید
+            })
+            .catch((error) => {
+                console.error("خطا در حذف آیتم:", error);
+                alert("خطایی رخ داد. لطفاً دوباره تلاش کنید.");
+            });
+    } else {
+        console.log("عملیات حذف لغو شد.");
+    }
+}
 import {
     TrashIcon,
     EyeIcon,

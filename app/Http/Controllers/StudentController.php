@@ -47,6 +47,15 @@ class StudentController extends Controller
 
         $student->boss_name =  $studentRequest->boss_name;
         $student->phone =  $studentRequest->phone;
+
+        
+        $student->saturday = $studentRequest->saturday ; 
+        $student->sunday = $studentRequest->sunday;
+        $student->monday = $studentRequest->monday;
+        $student->tuesday = $studentRequest->tuesday;
+        $student->wednesday = $studentRequest->wednesday;
+        $student->thursday = $studentRequest->thursday;
+
         $student->save();
         return redirect()->route("report.index");
     }

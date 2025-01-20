@@ -93,6 +93,10 @@ import {
                                                 class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-200 dark:hover:bg-gray-600 transition"
                                             >
                                                 {{ $page.props.auth.user.name }}
+                                                {{
+                                                    $page.props.auth.user
+                                                        .last_name
+                                                }}
                                                 <svg
                                                     class="ms-2 -me-0.5 h-4 w-4"
                                                     xmlns="http://www.w3.org/2000/svg"

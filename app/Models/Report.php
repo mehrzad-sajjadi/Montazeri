@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Report extends Model
 {
 
-    public $appends=["user_id","user_name"];
+    public $appends=["user_id","user_name","last_name"];
 
     public function student(){
         return $this->belongsTo(Student::class);
@@ -18,6 +18,9 @@ class Report extends Model
     }
     public function getUserNameAttribute(){
         return $this->student->user->name;
+    }
+    public function getLastNameAttribute(){
+        return $this->student->user->last_name;
     }
 
 

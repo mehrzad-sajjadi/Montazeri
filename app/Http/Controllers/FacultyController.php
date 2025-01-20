@@ -19,7 +19,7 @@ class FacultyController extends Controller
     public function index(){
         $teachers = User::where("level",">",0)->whereNot("id",Auth::id())->get()->map(function($record){
             $array=[];
-            $array["date"]      = ["key"=>"date","data"=>$record->name,"type"=>"text" ] ;
+            $array["date"]      = ["key"=>"date","data"=>$record->name . " " . $record->last_name ,"type"=>"text" ] ;
             $array["button"]    = [ "type"=>"button",
             "items"=>[
                 ["data"=>route('faculty.teacher.show',$record->id)     ,  "method"=>"get"      ,"value"=>"نمایش"           , "type"=>"show"        ],
@@ -61,6 +61,7 @@ class FacultyController extends Controller
     }
 
     //لیست دانشجویان یک استاد
+
     public function show($teacherId){
         $teacher = User::find($teacherId);
         $students = Student::where('teacher_id',$teacherId)->get()->map(function($record){
@@ -73,7 +74,7 @@ class FacultyController extends Controller
             ];
             return $array;
         });
-        // dd($students);
+
         $header = ["نام دانشجو", "عملیات"];
         return Inertia::render("Faculty/TeacherStudents",compact("students","header","teacher"));
     }

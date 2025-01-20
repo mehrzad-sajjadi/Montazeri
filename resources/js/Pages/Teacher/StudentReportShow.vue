@@ -30,11 +30,11 @@
                             >
                                 <div>
                                     ساعت ورود
-                                    {{ props.report.start_time }}
+                                    {{ start_time }}
                                 </div>
                                 <div>
                                     ساعت خروج
-                                    {{ props.report.end_time }}
+                                    {{ end_time }}
                                 </div>
                             </div>
                         </div>
@@ -44,40 +44,63 @@
                         >
                             {{ report.text }}
                         </p>
-
-                        <div
-                            v-if="image_url"
-                            class="mt-4 flex justify-between items-center"
-                        >
-                            <img
-                                :src="image_url"
-                                alt="گزارش تصویری"
-                                class="max-w-xs rounded-lg shadow-md border border-gray-300 dark:border-gray-700"
-                            />
+                        <div class="flex flex-row justify-around">
+                            <div
+                                v-if="image_url"
+                                class="mt-4 flex justify-between items-center"
+                            >
+                                <img
+                                    :src="image_url"
+                                    alt="گزارش تصویری"
+                                    class="max-w-xs rounded-lg shadow-md border border-gray-300 dark:border-gray-700"
+                                />
+                            </div>
+                            <div
+                                v-if="video_url"
+                                class="mt-4 flex justify-between items-center"
+                            >
+                                <video
+                                    :src="video_url"
+                                    controls
+                                    class="rounded-md shadow-lg max-w-lg"
+                                ></video>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="flex flex-row justify-between mb-4">
-                    <a
-                        v-if="image_url"
-                        :href="image_url"
-                        :download="image_name"
-                        as="button"
-                        type="button"
-                        class="h-8 px-4 flex items-center m-2 text-sm text-indigo-100 transition-colors duration-150 bg-blue-500 hover:bg-blue-600 rounded-lg focus:shadow-outline"
-                    >
-                        دریافت گزارش
-                        <ArrowDownTrayIcon class="size-5"></ArrowDownTrayIcon>
-                    </a>
+                    <div class="flex flex-row">
+                        <a
+                            v-if="image_url"
+                            :href="image_url"
+                            :download="image_name"
+                            as="button"
+                            type="button"
+                            class="h-8 px-4 flex items-center m-2 text-sm text-indigo-100 transition-colors duration-150 bg-blue-500 hover:bg-blue-600 rounded-lg focus:shadow-outline"
+                        >
+                            دریافت تصویر گزارش
+                            <ArrowDownTrayIcon
+                                class="size-5"
+                            ></ArrowDownTrayIcon>
+                        </a>
+                        <a
+                            v-if="video_url"
+                            :href="video_url"
+                            :download="video_name"
+                            as="button"
+                            type="button"
+                            class="h-8 px-4 flex items-center m-2 text-sm text-black transition-colors duration-150 bg-[#ddff00c3] hover:bg-[#ddff00] rounded-lg focus:shadow-outline"
+                        >
+                            دریافت ویدیو گزارش
+                            <ArrowDownTrayIcon
+                                class="size-5"
+                            ></ArrowDownTrayIcon>
+                        </a>
+                    </div>
 
                     <Link
-                        :href="
-                            route(
-                                'teacher.student.reports',
-                                props.report.student_id
-                            )
-                        "
+                        :href="route('report.index')"
                         type="button"
                         as="button"
                         class="h-8 px-4 m-2 text-sm duration-150 rounded focus:shadow-outline bg-[#ffc107] hover:bg-[#ffe607] text-black border border-[#ffc107] hover:border-transparent"
@@ -103,7 +126,9 @@ const props = defineProps({
     image_url: String,
     image_name: String,
     date: String,
+    start_time: String,
+    end_time: String,
+    video_url: String,
+    video_name: String,
 });
-console.log(props.report);
-import { BuildingStorefrontIcon } from "@heroicons/vue/24/solid";
 </script>

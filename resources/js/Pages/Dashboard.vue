@@ -111,6 +111,7 @@
                                         :value="teacher.id"
                                     >
                                         {{ teacher.name }}
+                                        {{ teacher.last_name }}
                                     </option>
                                 </select>
                                 <p
@@ -137,6 +138,105 @@
                                 >
                                     {{ $page.props.errors.start_date }}
                                 </p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col space-y-2">
+                            <label
+                                class="text-lg font-medium text-gray-700 dark:text-gray-300"
+                            >
+                                روزهای حضور
+                            </label>
+
+                            <div
+                                class="grid grid-cols-3 gap-4 justify-around px-5"
+                            >
+                                <div>
+                                    <label class="flex items-center space-x-2">
+                                        <input
+                                            type="checkbox"
+                                            v-model="form.saturday"
+                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                                        />
+                                        <span
+                                            class="text-sm font-medium mx-1 text-gray-700 dark:text-gray-300"
+                                        >
+                                            شنبه
+                                        </span>
+                                    </label>
+                                </div>
+                                <div>
+                                    <label class="flex items-center space-x-2">
+                                        <input
+                                            type="checkbox"
+                                            v-model="form.sunday"
+                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                                        />
+                                        <span
+                                            class="text-sm font-medium mx-1 text-gray-700 dark:text-gray-300"
+                                        >
+                                            یکشنبه
+                                        </span>
+                                    </label>
+                                </div>
+                                <div>
+                                    <label class="flex items-center space-x-2">
+                                        <input
+                                            type="checkbox"
+                                            v-model="form.monday"
+                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                                        />
+                                        <span
+                                            class="text-sm font-medium mx-1 text-gray-700 dark:text-gray-300"
+                                        >
+                                            دوشنبه
+                                        </span>
+                                    </label>
+                                </div>
+
+                                <div>
+                                    <label class="flex items-center space-x-2">
+                                        <input
+                                            type="checkbox"
+                                            v-model="form.tuesday"
+                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                                        />
+                                        <span
+                                            class="text-sm font-medium mx-1 text-gray-700 dark:text-gray-300"
+                                        >
+                                            سه شنبه
+                                        </span>
+                                    </label>
+                                </div>
+
+                                <div>
+                                    <label class="flex items-center space-x-2">
+                                        <input
+                                            type="checkbox"
+                                            v-model="form.wednesday"
+                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                                        />
+                                        <span
+                                            class="text-sm font-medium mx-1 text-gray-700 dark:text-gray-300"
+                                        >
+                                            چهار شنبه
+                                        </span>
+                                    </label>
+                                </div>
+
+                                <div>
+                                    <label class="flex items-center space-x-2">
+                                        <input
+                                            type="checkbox"
+                                            v-model="form.thursday"
+                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:bg-gray-700 dark:border-gray-600"
+                                        />
+                                        <span
+                                            class="text-sm font-medium mx-1 text-gray-700 dark:text-gray-300"
+                                        >
+                                            پنج شنبه
+                                        </span>
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -176,6 +276,13 @@ const form = useForm({
     boss_name: "",
     phone: "",
     teacher_id: "",
+
+    saturday: false,
+    sunday: false,
+    monday: false,
+    tuesday: false,
+    wednesday: false,
+    thursday: false,
 });
 function submit() {
     form.post(route("student.store"), {

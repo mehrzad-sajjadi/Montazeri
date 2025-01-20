@@ -176,6 +176,7 @@ return [
     |
     */
     'attributes' => [
+        "code_id"=>"کد ملی",
         "position"=>"سمت",
         "end_time"=>"ساعت خروج",
         "name" => "نام",
