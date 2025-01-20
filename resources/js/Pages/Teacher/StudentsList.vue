@@ -14,7 +14,7 @@
         <div class="flex justify-center py-4">
             <input
                 type="text"
-                placeholder="نام یا نام خانوادگی دانشجو را وارد کنید"
+                placeholder="کد ملی را وارد کنید ..."
                 v-model="search"
                 @input="submitSearch"
                 class="w-[300px] px-4 py-2 border rounded-lg text-gray-700 focus:outline-none focus:ring dark:bg-gray-800 dark:text-white dark:placeholder-gray-400 dark:border-gray-700 focus:ring-gray-300 dark:focus:ring-gray-600"

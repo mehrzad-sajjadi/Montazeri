@@ -58,6 +58,7 @@
                     </div>
                 </div>
                 <div class="flex flex-row justify-between mb-4">
+
                     <Link
                         :href="route('company.index')"
                         type="button"

@@ -20,14 +20,31 @@ class TeacherController extends Controller
         $search = $request->input('search');
         
         
+        // $students = Student::where('teacher_id', Auth::user()->id)
+        // ->when($search, function ($query, $search) {
+        //     $query->whereHas('user', function ($q) use ($search) {
+        //         $q->where('name', 'like', '%' . $search . '%');
+        //     })->orWhereHas('user', function ($q) use ($search) {
+        //         $q->where('last_name', 'like', '%' . $search . '%');
+        //     });
+        // })->with("user")->get()->map(function($record){
+        //     $array=[];
+    
+        //     $array["name"]      = ["key"=>"date","data"=>$record->user_name ." ". $record->last_name  ,"type"=>"text", ] ;
+        //     $array["code_id"]      = ["key"=>"date","data"=>$record->code_id  ,"type"=>"text", ] ;
+        //     $array["button"]    = [ "type"=>"button",
+        //         "items"=>[
+        //             ["data"=>route("teacher.student.reports",$record->id)     ,  "method"=>"get"      ,"value"=>"نمایش"           , "type"=>"show"        ],
+        //         ],
+        //     ];
+        //     return $array;
+        // });
         $students = Student::where('teacher_id', Auth::user()->id)
         ->when($search, function ($query, $search) {
             $query->whereHas('user', function ($q) use ($search) {
-                $q->where('name', 'like', '%' . $search . '%');
-            })->orWhereHas('user', function ($q) use ($search) {
-                $q->where('last_name', 'like', '%' . $search . '%');
+                $q->where('code_id', 'like', '%' . $search . '%');
             });
-        })->with("user")->get()->map(function($record){
+            })->with("user")->get()->map(function($record){
             $array=[];
     
             $array["name"]      = ["key"=>"date","data"=>$record->user_name ." ". $record->last_name  ,"type"=>"text", ] ;
@@ -85,9 +102,15 @@ class TeacherController extends Controller
         if($reminder<="00:00"){
             $reminder= "00:00";
         }
+
         $reports = Report::where("student_id",$student->id)->latest()->get()->map(function($record){
+            $date = Jalalian::fromFormat('Y-m-d H:i:s', DateConvertor::miladi2shamsi($record->date));
+
             $array=[];
+            $array["day"]      = ["key"=>"date","data"=>$date->format("%A"),"type"=>"text", ] ;
+
             $array["date"]      = ["key"=>"date","data"=>Jalalian::fromFormat('Y-m-d H:i:s', DateConvertor::miladi2shamsi($record->date))->format("Y/m/d"),"type"=>"text", ] ;
+
             $array["button"]    = [ "type"=>"button",
                 "items"=>[
                     ["data"=>route("teacher.student.report.show",$record->id)     ,  "method"=>"get"      ,"value"=>"نمایش"           , "type"=>"show"        ],
@@ -95,7 +118,7 @@ class TeacherController extends Controller
             ];
             return $array;
         });
-        $header = ["تاریخ گزارش", "عملیات"];
+        $header = ["روز","تاریخ گزارش", "عملیات"];
         return Inertia::render("Teacher/StudentReportList",compact("reports","header","student","totalTime","reminder"));
     }
 

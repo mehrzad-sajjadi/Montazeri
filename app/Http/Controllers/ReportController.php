@@ -55,7 +55,12 @@ class ReportController extends Controller
         }
 
         $reports = Report::where("student_id",Auth::user()->student_id)->latest()->get()->map(function($record){
+            $date = Jalalian::fromFormat('Y-m-d H:i:s', DateConvertor::miladi2shamsi($record->date));
+
+
             $array=[];
+            $array["day"]      = ["key"=>"date","data"=>$date->format("%A"),"type"=>"text", ] ;
+           
             $array["date"]      = ["key"=>"date","data"=>Jalalian::fromFormat('Y-m-d H:i:s', DateConvertor::miladi2shamsi($record->date))->format("Y/m/d"),"type"=>"text", ] ;
             $array["button"]    = [ "type"=>"button",
                 "items"=>[
@@ -64,9 +69,10 @@ class ReportController extends Controller
             ];
             return $array;
         });
-        $header = ["تاریخ گزارش", "عملیات"];
+        $header = ["روز","تاریخ گزارش", "عملیات"];
         return Inertia::render("Report/index",compact("reports","header","totalTime","reminder"));
     }
+
     public function create(){
 
         $now = Jalalian::now()->format("Y/m/d");
@@ -215,4 +221,4 @@ class ReportController extends Controller
 
 
 
-                    // ["data"=>route("report.edit",$record->id)     ,  "method"=>"get"            ,"value"=>"ویرایش"          , "type"=>"edit"        ],
+

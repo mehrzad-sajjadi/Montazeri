@@ -69,6 +69,17 @@
                     </div>
                 </div>
                 <div class="flex flex-row justify-between mb-4">
+                    <!-- بررسی نمایش دکمه -->
+                    <button
+                        v-if="!hasRequested"
+                        @click="sendRequest()"
+                        type="button"
+                        as="button"
+                        class="h-8 px-4 flex items-center m-2 text-sm transition-colors duration-150 bg-[#6c757d] hover:bg-[#757b80] rounded-lg text-white border border-[#6c757d] hover:border-transparent"
+                    >
+                        ارسال درخواست کارآموزی
+                    </button>
+
                     <Link
                         :href="route('intern.index')"
                         type="button"
@@ -89,8 +100,19 @@ import { Head, useForm, usePage, Link } from "@inertiajs/vue3";
 
 const props = defineProps({
     intern: Object,
+    hasRequested: Boolean,
 });
 
+const form = useForm({
+    user_id: usePage().props.auth.user.id,
+    company_id: props.intern.company_id,
+    skill: props.intern.skill,
+});
+
+function sendRequest() {
+    form.post(route("request.store"));
+    alert("درخواست کارآموزی شما با موفقیت ثبت شد");
+}
 import {
     TrashIcon,
     EyeIcon,

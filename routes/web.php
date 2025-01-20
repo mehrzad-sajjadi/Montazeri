@@ -6,6 +6,7 @@ use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\InternController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\RequestController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Middleware\IsFaculty;
@@ -81,7 +82,11 @@ Route::prefix("/ads")->middleware(['auth', 'verified'])->group(function(){
 });
 
 
+Route::prefix("/request")->middleware(['auth', 'verified'])->group(function(){
+    Route::get("/",[RequestController::class,"index"])->name("request.index");
+    Route::post("/",[RequestController::class,"store"])->name("request.store");
 
+});
 
 
 

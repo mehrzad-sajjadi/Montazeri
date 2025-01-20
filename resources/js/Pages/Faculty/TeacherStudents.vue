@@ -8,16 +8,8 @@
                 >
                     لیست دانشجویان
                     {{ teacher.name }}
+                    {{ teacher.last_name }}
                 </h2>
-                <!-- <Link
-                    href="#"
-                    as="button"
-                    type="button"
-                    class="h-8 px-4 flex items-center m-2 text-sm transition-colors duration-150 bg-[#6c757d] hover:bg-[#757b80] rounded-lg text-white border border-[#6c757d] hover:border-transparent"
-                >
-                    اطلاعات شرکت
-                    <BuildingOfficeIcon class="size-5"></BuildingOfficeIcon>
-                </Link> -->
                 <button
                     @click="deleteTeacher(props.teacher.id)"
                     as="button"

@@ -41,6 +41,7 @@
                                 </label>
                                 <date-picker
                                     v-model="form.date"
+                                    :min="$page.props.now"
                                     :max="$page.props.now"
                                     class="w-full"
                                 ></date-picker>

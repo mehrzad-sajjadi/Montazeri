@@ -41,12 +41,17 @@ class FacultyController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'code_id' => 'required|regex:/^[0-9]{10}$/|digits:10|unique:'.User::class,
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
         $user = new User();
 
         $user->name = $request->name ;
+        $user->last_name = $request->last_name ;
+        $user->code_id = $request->code_id ;
+
         $user->email = $request->email ;
         if($request->isFaculty){
             $user->level = 2;
