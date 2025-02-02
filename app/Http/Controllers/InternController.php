@@ -42,7 +42,6 @@ class InternController extends Controller
         $intern->company_id = $internRequest->company_id;
         $intern->save();
         return redirect()->route("company.index");
-
     }
 
     public function delete(Intern $intern){

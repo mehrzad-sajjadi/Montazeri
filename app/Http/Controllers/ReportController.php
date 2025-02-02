@@ -82,24 +82,17 @@ class ReportController extends Controller
 
     public function store(reportRequest $reportRequest)
     {
-    
         $date = DateConvertor::shamsi2miladi($reportRequest->date);
-    
-    
         $check = Report::where("date", $date)->where("student_id", $reportRequest->student_id)->first();
         if ($check) {
             return redirect()->route("report.create")->with("error", "شما قبلا در این تاریخ گزارش خود را ثبت کرده اید");
         }
-    
-    
         $report = new Report();
         $report->text = $reportRequest->text;
         $report->date = $date;
         $report->start_time = $reportRequest->start_time;
         $report->end_time = $reportRequest->end_time;
         $report->student_id = $reportRequest->student_id;
-    
-    
         if ($reportRequest->hasFile('image')) {
             $image = $reportRequest->file("image");
             $type = $image->getClientOriginalExtension();
@@ -108,7 +101,6 @@ class ReportController extends Controller
             $image->storeAs('pics', $image_name, 'public');
             $report->image = $image_name;
         }
-    
         // ذخیره ویدیو در صورت وجود
         if ($reportRequest->hasFile('video')) {
             $video = $reportRequest->file("video");
@@ -118,11 +110,7 @@ class ReportController extends Controller
             $video->storeAs('movie', $video_name, 'public');
             $report->video = $video_name;
         }
-    
-    
         $report->save();
-    
-    
         return redirect()->route('report.index')->with("message", "گزارش شما با موفقیت اضافه شد");
     }
     
@@ -175,11 +163,7 @@ class ReportController extends Controller
     }
     public function update(reportRequest $reportRequest,Report $report){
         $date = DateConvertor::shamsi2miladi( $reportRequest->date);
-        // dd( $date);
-        // $check = Report::where("date",$reportRequest->date)->where("student_id",$reportRequest->student_id)->first();
-        // if($check){
-        //     return redirect()->route("report.create")->withErrors("شما قبلا در این تاریخ گزارش خود را ثبت کرده اید");
-        // }
+        
         $report->text = $reportRequest->text;
         $report->date = $date;
         $report->student_id = $reportRequest->student_id;

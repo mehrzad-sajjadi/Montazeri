@@ -19,7 +19,6 @@ class TeacherController extends Controller
     public function index(Request $request){
         $search = $request->input('search');
         
-        
         // $students = Student::where('teacher_id', Auth::user()->id)
         // ->when($search, function ($query, $search) {
         //     $query->whereHas('user', function ($q) use ($search) {

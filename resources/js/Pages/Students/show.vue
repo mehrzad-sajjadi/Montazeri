@@ -6,6 +6,7 @@
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                     لیست گزارشات آقای
                     {{ user.name }}
+                    {{ user.last_name }}
                 </h2>
             </div>
         </template>

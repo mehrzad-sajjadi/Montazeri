@@ -45,7 +45,6 @@ class CompanyController extends Controller
         if(!$checkId){
             return redirect()->route("company.create");
         }
-
         $company = Company::where('user_id', Auth::user()->id)->first();
         $ads = Intern::where('company_id', $company->id)->get()->map(function($record){
             $array=[];
@@ -61,10 +60,7 @@ class CompanyController extends Controller
             ];
             return $array;
         });
-
-        
         $header = ["مهارت اصلی","تعداد", "عملیات"];
-
         return Inertia::render("Company/internAdd",compact("ads","header"));
     }
 
